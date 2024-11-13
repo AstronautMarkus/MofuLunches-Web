@@ -77,3 +77,19 @@
     transition: background-color 0.3s ease;
 }
 
+
+.flash-container {
+    margin-top: 10px;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}

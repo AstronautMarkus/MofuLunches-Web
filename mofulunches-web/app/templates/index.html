@@ -18,7 +18,7 @@
 
     <div class="row justify-content-center">
         <div class="col-md-4" data-aos="fade-up" data-aos-delay="250">
-            <a href="#" class="card-link" data-bs-toggle="modal" data-bs-target="#loginModal" onclick="setModalTitle('Administrador')">
+            <a href="#" class="card-link" data-bs-toggle="modal" data-bs-target="#loginModal" onclick="setModalTitle('administrador')">
                 <div class="card mb-4 shadow-sm card-hover">
                     <img class="card-img-top" src="{{ url_for('static', filename='img/avatars/admin_image.png') }}" alt="Admin Image">
                     <div class="card-body text-center">
@@ -30,7 +30,7 @@
         </div>
 
         <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
-            <a href="#" class="card-link" data-bs-toggle="modal" data-bs-target="#loginModal" onclick="setModalTitle('Cocineros')">
+            <a href="#" class="card-link" data-bs-toggle="modal" data-bs-target="#loginModal" onclick="setModalTitle('cocineros')">
                 <div class="card mb-4 shadow-sm card-hover">
                     <img class="card-img-top" src="{{ url_for('static', filename='img/avatars/cocinero_image.png') }}" alt="Cocinero Image">
                     <div class="card-body text-center">
@@ -54,6 +54,9 @@
                 </button>                
             </div>
             <div class="modal-body">
+                
+                <div id="flash-messages" class="flash-container mb-3"></div>
+
                 <form>
                     <div class="mb-3">
                         <label for="username" class="form-label">Usuario</label>
@@ -69,6 +72,7 @@
         </div>
     </div>
 </div>
+
 
 {% endblock %}
 
