@@ -1,12 +1,45 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MofuLunches-Web</title>
-</head>
-<body>
-    <h1>It works!!!1</h1>
-    <p>Este es un proyecto de prueba para el curso de Arquitectura.</p>
-</body>
-</html>
+{% extends "base/base.html" %}
+
+{% block title %}MofuLunches - Dashboard{% endblock %}
+
+{% block body %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/card-hover.css') }}">
+{% endblock %}
+
+
+    <div class="container mt-5">
+        <div class="text-center mb-4" data-aos-delay="100" data-aos="fade-down">
+            <h1 class="display-5">Bienvenido al Dashboard de Mofu Lunches</h1>
+            <p class="lead">Selecciona una opción para continuar.</p>
+        </div>
+
+        <div class="row justify-content-center">
+            
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="250">
+                <a href="/" class="card-link">
+                    <div class="card mb-4 shadow-sm card-hover">
+                        <img class="card-img-top" src="{{ url_for('static', filename='img/avatars/admin_image.png') }}" alt="Admin Image">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Administrador</h5>
+                            <p class="card-text">Encargados de la creación y modificación de usuarios y asignación de roles.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
+                <a href="/" class="card-link">
+                    <div class="card mb-4 shadow-sm card-hover">
+                        <img class="card-img-top" src="{{ url_for('static', filename='img/avatars/cocinero_image.png') }}" alt="Cocinero Image">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Cocineros</h5>
+                            <p class="card-text">Encargados de la creación y modificación de platillos, ingredientes y menús.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
