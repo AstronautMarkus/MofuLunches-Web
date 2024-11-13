@@ -2,44 +2,76 @@
 
 {% block title %}MofuLunches - Dashboard{% endblock %}
 
-{% block body %}
-
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/card-hover.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/modal.css') }}">
 {% endblock %}
 
+{% block body %}
 
-    <div class="container mt-5">
-        <div class="text-center mb-4" data-aos-delay="100" data-aos="fade-down">
-            <h1 class="display-5">Bienvenido al Dashboard de Mofu Lunches</h1>
-            <p class="lead">Selecciona una opción para continuar.</p>
+
+<div class="container mt-5">
+    <div class="text-center mb-4" data-aos-delay="100" data-aos="fade-down">
+        <h1 class="display-5">Bienvenido al Dashboard de Mofu Lunches</h1>
+        <p class="lead">Selecciona una opción para continuar.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="250">
+            <a href="#" class="card-link" data-bs-toggle="modal" data-bs-target="#loginModal" onclick="setModalTitle('Administrador')">
+                <div class="card mb-4 shadow-sm card-hover">
+                    <img class="card-img-top" src="{{ url_for('static', filename='img/avatars/admin_image.png') }}" alt="Admin Image">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Administrador</h5>
+                        <p class="card-text">Encargados de la creación y modificación de usuarios y asignación de roles.</p>
+                    </div>
+                </div>
+            </a>
         </div>
 
-        <div class="row justify-content-center">
-            
-            <div class="col-md-4" data-aos="fade-up" data-aos-delay="250">
-                <a href="/" class="card-link">
-                    <div class="card mb-4 shadow-sm card-hover">
-                        <img class="card-img-top" src="{{ url_for('static', filename='img/avatars/admin_image.png') }}" alt="Admin Image">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Administrador</h5>
-                            <p class="card-text">Encargados de la creación y modificación de usuarios y asignación de roles.</p>
-                        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
+            <a href="#" class="card-link" data-bs-toggle="modal" data-bs-target="#loginModal" onclick="setModalTitle('Cocineros')">
+                <div class="card mb-4 shadow-sm card-hover">
+                    <img class="card-img-top" src="{{ url_for('static', filename='img/avatars/cocinero_image.png') }}" alt="Cocinero Image">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Cocineros</h5>
+                        <p class="card-text">Encargados de la creación y modificación de platillos, ingredientes y menús.</p>
                     </div>
-                </a>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                <button type="button" class="custom-close-btn" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>                
             </div>
-            
-            <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
-                <a href="/" class="card-link">
-                    <div class="card mb-4 shadow-sm card-hover">
-                        <img class="card-img-top" src="{{ url_for('static', filename='img/avatars/cocinero_image.png') }}" alt="Cocinero Image">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Cocineros</h5>
-                            <p class="card-text">Encargados de la creación y modificación de platillos, ingredientes y menús.</p>
-                        </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Usuario</label>
+                        <input type="text" class="form-control" id="username" placeholder="Ingrese su usuario">
                     </div>
-                </a>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{url_for('static', filename='js/login_modal.js')}}"></script>
 {% endblock %}
