@@ -40,21 +40,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
         flashContainer.innerHTML = "";
 
-        const flashMessages = await fetch("/get-flashes").then(res => res.json());
-
-        flashMessages.forEach(message => {
+        
+        if (result.message) {
             const flashMessage = document.createElement("div");
-            flashMessage.classList.add("alert", `alert-${message.category}`);
-            flashMessage.textContent = message.message;
+            flashMessage.classList.add("alert", `alert-${response.ok ? "success" : "error"}`);
+            flashMessage.textContent = result.message;
             flashContainer.appendChild(flashMessage);
-        });
+        }
 
+        
         if (response.ok) {
-            if (result.role === "Admin") {
-                window.location.href = "/admin-dashboard";
-            } else if (result.role === "Cocinero") {
-                window.location.href = "/cocinero-dashboard";
-            }
+            setTimeout(() => {
+                window.location.href = result.redirect_url;
+            }, 1500);
         }
     });
 });
