@@ -15,6 +15,13 @@ document.addEventListener("DOMContentLoaded", function () {
         roleRequired = role;
     };
 
+    const loginModal = document.getElementById('loginModal');
+    loginModal.addEventListener('hidden.bs.modal', function () {
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        flashContainer.innerHTML = '';
+    });
+
     loginForm.addEventListener("submit", async function (e) {
         e.preventDefault();
 
@@ -31,10 +38,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const result = await response.json();
 
-        
         flashContainer.innerHTML = "";
 
-        
         const flashMessages = await fetch("/get-flashes").then(res => res.json());
 
         flashMessages.forEach(message => {
