@@ -1,10 +1,10 @@
 :root {
-    --bs-primary: #733AAC;      
-    --bs-secondary: #a97ebe;    
-    --bs-success: #3A5AAC;      
-    --bs-info: #CDE9D4;         
-    --bs-warning: #cfca33;      
-    --bs-danger: #AC3A3A;       
+    --bs-primary: #2C3E50;      
+    --bs-secondary: #3E5C73;    
+    --bs-success: #1ABC9C;      
+    --bs-info: #A9DFBF;         
+    --bs-warning: #F7DC6F;      
+    --bs-danger: #E74C3C;       
 }
 
 
@@ -28,4 +28,8 @@ body {
 
 .footer {
     margin-top: auto;
+}
+
+.title {
+    font-family: 'SUSE', sans-serif;
 }

@@ -8,18 +8,19 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=SUSE&display=swap">
     <title>{% block title %}MofuLunches{% endblock %}</title>
     {% block extra_css %}
     {% endblock %}
 </head>
 <body>
-    <!-- Include header -->
+
     {% include 'base/components/header.html' %}
 
     {% block body %}
     {% endblock %}
 
-    <!-- Include footer -->
+
     {% include 'base/components/footer.html' %}
 
     {% block extra_js %}

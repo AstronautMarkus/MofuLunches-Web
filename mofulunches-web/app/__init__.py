@@ -6,8 +6,12 @@ def create_app():
 
     # Blueprints
     from .routes.main_routes import main_bp
+    from .routes.admin_routes import admin_bp
+    from .routes.cocineros_routes import cocineros_bp
 
     app.register_blueprint(main_bp)
+    app.register_blueprint(admin_bp)
+    app.register_blueprint(cocineros_bp)
 
 
     return app

@@ -9,7 +9,7 @@
 .modal-header {
     background-color: #343a40; 
     color: #ffffff; 
-    border-bottom: 2px solid #ffc107; 
+    border-bottom: 5px solid var(--bs-warning);
     border-radius: 10px 10px 0 0; 
 }
 
@@ -21,13 +21,13 @@
 
 
 .modal-header .btn-close {
-    background-color: #ffc107;
+    background-color: var(--bs-warning);
     border-radius: 50%;
     color: #343a40;
 }
 
 .modal-header .btn-close:hover {
-    background-color: #ffca2c;
+    background-color: var(--bs-warning);
 }
 
 
@@ -64,7 +64,7 @@
     top: 15px;
     right: 15px;
     font-size: 1.5rem;
-    background-color: #ffc107;
+    background-color: var(--bs-warning);
     color: #343a40; 
     border: none;
     border-radius: 50%; 
