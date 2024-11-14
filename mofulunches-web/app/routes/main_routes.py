@@ -19,20 +19,16 @@ def set_secret_key():
 
 @main_bp.route('/')
 def index():
-    
     user_name = session.get('user_name')
     user_role = session.get('role')
     
     if user_name:
-        
         if user_role == "administrador":
             return redirect(url_for('admin.admin_index'))
         elif user_role == "cocineros":
             return redirect(url_for('cocineros.cocineros_index'))
     
-    
     return render_template('index.html')
-
 
 @main_bp.route('/login', methods=['POST'])
 def login():
@@ -48,14 +44,13 @@ def login():
                 session['user_name'] = username  
                 session['role'] = user["role"]  
                 redirect_url = "/admin" if user["role"] == "administrador" else "/cocineros"
-                return jsonify({"status": "success", "user": username, "role": user["role"], "redirect_url": redirect_url, "message": "Login exitoso!"}), 200
+                return jsonify({"status": "success", "user": username, "role": user["role"], "redirect_url": redirect_url, "message": "Iniciado sesión correctamente!"}), 200
             else:
-                return jsonify({"status": "error", "message": "Acceso denegado para el rol requerido."}), 403
+                return jsonify({"status": "error", "message": "Acceso denegado para el rol requerido. Verifique su rol."}), 403
         else:
             return jsonify({"status": "error", "message": "Contraseña incorrecta."}), 401
     else:
         return jsonify({"status": "error", "message": "Usuario no encontrado."}), 404
-
 
 @main_bp.route('/logout', methods=['POST'])
 def logout():
