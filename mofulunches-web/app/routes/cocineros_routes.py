@@ -4,11 +4,9 @@ cocineros_bp = Blueprint('cocineros', __name__, url_prefix='/cocineros')
 
 @cocineros_bp.route('/')
 def cocineros_index():
-    user_name = session.get('user_name')
-    user_role = session.get('role')
+    user = session.get('user')  # Get all data in variable
+    if not user or user.get("role") != "cocineros":
+        error_message = "Acceso denegado. Debes ser cocinero para acceder a esta página."
+        return render_template('error.html', error_message=error_message)
 
-    if not user_name or user_role != "cocineros":
-        error_message = f"Acceso denegado. Debes ser cocinero para acceder a esta página."
-        return render_template('error.html', error_message=error_message, user_name=user_name)
-
-    return render_template('cocineros/index.html', user_name=user_name)
+    return render_template('cocineros/index.html', user=user)

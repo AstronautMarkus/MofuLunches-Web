@@ -5,10 +5,10 @@
             <h1 class="text-white tex m-0 title">Mofu Lunches</h1>
         </div>
         <div class="col-4 d-flex justify-content-end">
-            {% if user_name %}
+            {% if user %}
                 <div class="d-flex align-items-center user-info">
                     <i class="fas fa-user-circle me-2"></i>
-                    <span class="user-name">{{ user_name }}</span>
+                    <span class="user-name">{{ user.nombres }} {{ user.apellidos }}</span>
                 </div>
                 <form action="{{ url_for('main.logout') }}" method="post" class="d-inline ms-3">
                     <button class="btn btn-logout-icon" type="submit">

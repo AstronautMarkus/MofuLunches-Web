@@ -8,8 +8,23 @@ main_bp = Blueprint('main', __name__)
 
 # Users static test
 users = {
-    "astronautmarkus": {"password": "administrador", "role": "administrador"},
-    "sevenjackson": {"password": "cocinero", "role": "cocineros"}
+    "astronautmarkus": {
+        "nombres": "Astronauta",
+        "apellidos": "Marquinhos",
+        "correo": "markus@example.com",
+        "password": "administrador",
+        "codigo_RFID": "RFID12345",
+        "role": "administrador"
+    },
+    "sevenjackson": {
+        "rut": "98765432-1",
+        "nombres": "Seven",
+        "apellidos": "Jackson",
+        "correo": "seven@example.com",
+        "password": "cocinero",
+        "codigo_RFID": "RFID67890",
+        "role": "cocineros"
+    }
 }
 
 @main_bp.before_app_request
@@ -41,16 +56,20 @@ def login():
         user = users[username]
         if user["password"] == password:
             if user["role"] == role_required:
-                session['user_name'] = username  
-                session['role'] = user["role"]  
+                # Store user data in session
+                session['user'] = user  # Store all user data
+                session['user_name'] = username
+                session['role'] = user["role"]
+                
                 redirect_url = "/admin" if user["role"] == "administrador" else "/cocineros"
-                return jsonify({"status": "success", "user": username, "role": user["role"], "redirect_url": redirect_url, "message": "Iniciado sesión correctamente!"}), 200
+                return jsonify({"status": "success", "redirect_url": redirect_url, "message": "Iniciado sesión exitosamente."}), 200
             else:
                 return jsonify({"status": "error", "message": "Acceso denegado para el rol requerido. Verifique su rol."}), 403
         else:
             return jsonify({"status": "error", "message": "Contraseña incorrecta."}), 401
     else:
         return jsonify({"status": "error", "message": "Usuario no encontrado."}), 404
+
 
 @main_bp.route('/logout', methods=['POST'])
 def logout():
