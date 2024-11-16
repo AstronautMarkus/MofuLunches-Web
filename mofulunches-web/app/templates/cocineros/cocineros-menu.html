@@ -9,8 +9,8 @@
 {% block body %}
 <div class="container mt-5">
     <div class="text-center mb-4">
-        <h1 class="display-5">Bienvenido al Panel de Administrador, {{ user.nombres }} {{ user.apellidos }}!</h1>
-        <p class="lead">Aquí puedes gestionar usuarios, asignar roles y mucho más.</p>
+        <h1 class="display-5">Bienvenido al Panel de Cocineros, {{ user.nombres }} {{ user.apellidos }}!</h1>
+        <p class="lead">Aquí puedes gestionar cartas, platillos, ingredientes y mucho más.</p>
     </div>
     <div class="row justify-content-center">
 
@@ -18,11 +18,11 @@
             <div class="card dashboard-card shadow text-center">
                 <div class="card-body">
                     <div class="card-icon text-primary mb-3">
-                        <i class="fas fa-users"></i>
+                        <i class="fa-regular fa-file-lines"></i>
                     </div>
-                    <h5 class="card-title">Listar Usuarios</h5>
-                    <p class="card-text">Visualiza todos los usuarios registrados y administra sus datos.</p>
-                    <button class="btn btn-primary btn-custom">Ver Usuarios</button>
+                    <h5 class="card-title">Menú Cartas</h5>
+                    <p class="card-text">Acceder al menú de administración para cartas.</p>
+                    <a href="{{ url_for('cocineros.cartas_menu') }}" class="btn btn-primary btn-custom">Acceder</a>
                 </div>
             </div>
         </div>
@@ -30,17 +30,30 @@
         <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
             <div class="card dashboard-card shadow text-center">
                 <div class="card-body">
-                    <div class="card-icon text-success mb-3">
-                        <i class="fas fa-user-plus"></i>
+                    <div class="card-icon text-warning mb-3">
+                        <i class="fa-solid fa-pizza-slice"></i>
                     </div>
-                    <h5 class="card-title">Crear Usuarios</h5>
-                    <p class="card-text">Añade nuevos usuarios al sistema y asigna sus roles.</p>
-                    <button class="btn btn-success btn-custom">Crear Usuario</button>
+                    <h5 class="card-title">Menú Platillos</h5>
+                    <p class="card-text">Acceder al menú de administración para platillos.</p>
+                    <a href="{{ url_for('cocineros.platillos_menu') }}" class="btn btn-warning btn-custom">Acceder</a>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="card dashboard-card shadow text-center">
+                <div class="card-body">
+                    <div class="card-icon text-success mb-3">
+                        <i class="fa-solid fa-wheat-awn"></i>
+                    </div>
+                    <h5 class="card-title">Menú Ingredientes</h5>
+                    <p class="card-text">Acceder al menú de administración para ingredientes.</p>
+                    <a href="{{ url_for('cocineros.ingredientes_menu') }}" class="btn btn-success btn-custom">Acceder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="400">
             <div class="card dashboard-card shadow text-center">
                 <div class="card-body">
                     <div class="card-icon text-danger mb-3">
