@@ -1,0 +1,21 @@
+{% extends "base/base.html" %}
+
+{% block title %}MofuLunches - Menú de ingredientes{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/dashboard_cards.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="display-5">Listar ingredientes</h1>
+        <p class="lead">Selecciona un ingrediente para revisar sus detalles.</p>
+    </div>
+    
+</div>
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}
