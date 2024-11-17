@@ -1,3 +1,36 @@
+:root {
+    --header-normal-primary: #2C3E50;      
+    --header-normal-secondary: #3E5C73; 
+    --header-admin-primary: #154360; 
+    --header-admin-secondary: #1A5276; 
+    --header-admin-tertiary: #2471A3; 
+    --header-cocineros-primary: #4A235A; 
+    --header-cocineros-secondary: #6C3483; 
+    --header-cocineros-tertiary: #8E44AD; 
+}
+
+
+.header-gradient {
+    background: linear-gradient(135deg, var(--header-normal-primary) 0%, var(--header-normal-secondary) 100%);
+    color: #ffffff;
+}
+
+.header-admin {
+    background: linear-gradient(135deg, var(--header-admin-primary) 0%, var(--header-admin-secondary) 50%, var(--header-admin-tertiary) 100%);
+}
+
+.header-cocineros {
+    background: linear-gradient(135deg, var(--header-cocineros-primary) 0%, var(--header-cocineros-secondary) 50%, var(--header-cocineros-tertiary) 100%);
+}
+
+.footer {
+    margin-top: auto;
+}
+
+.title {
+    font-family: 'SUSE', sans-serif;
+}
+
 .header-gradient {
     display: flex;
     justify-content: space-between;

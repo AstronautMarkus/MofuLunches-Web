@@ -1,4 +1,4 @@
-<header class="text-center py-4 header-gradient d-flex justify-content-between align-items-center px-4">
+<header class="text-center py-4 header-gradient d-flex justify-content-between align-items-center px-4 {% if user and user.role == 'administrador' %}header-admin{% elif user and user.role == 'cocineros' %}header-cocineros{% endif %}">
     <div class="container-fluid d-flex justify-content-between align-items-center">
         <div class="col-4"></div>
         <div class="col-4 text-center">
