@@ -1,12 +1,7 @@
 :root {
-    --bs-primary: #2C3E50;      
-    --bs-secondary: #3E5C73;    
-    --bs-success: #1ABC9C;      
-    --bs-info: #A9DFBF;         
-    --bs-warning: #F7DC6F;      
-    --bs-danger: #E74C3C;       
+    --header-primary: #2C3E50;      
+    --header-secondary: #3E5C73;         
 }
-
 
 html, body {
     height: 100%;
@@ -22,7 +17,7 @@ body {
 }
 
 .header-gradient {
-    background: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-secondary) 100%);
+    background: linear-gradient(135deg, var(--header-primary) 0%, var(--header-secondary) 100%);
     color: #ffffff;
 }
 

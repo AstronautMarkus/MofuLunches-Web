@@ -1,6 +1,10 @@
-from flask import Blueprint, render_template, session
+from flask import Blueprint, render_template, session, g
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
+
+@admin_bp.before_request
+def before_request():
+    g.user = session.get('user')
 
 @admin_bp.route('/')
 def admin_index():
@@ -9,4 +13,4 @@ def admin_index():
         error_message = "Acceso denegado. Debes ser administrador para acceder a esta página."
         return render_template('error.html', error_message=error_message)
 
-    return render_template('admin/index.html', user=user)
+    return render_template('admin/index.html', user=g.user)

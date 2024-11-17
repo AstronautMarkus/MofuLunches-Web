@@ -1,0 +1,114 @@
+{% extends "base/base.html" %}
+
+{% block title %}MofuLunches - Crear carta{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cocineros/create_card.css') }}">
+{% endblock %}
+
+
+{% block body %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="display-5">Crear Carta</h1>
+        <p class="lead">Selecciona los alimentos y categorías para crear una nueva carta.</p>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col text-center">
+            <label for="fecha" class="form-label">Selecciona fecha</label>
+            <input type="date" id="fecha" name="fecha" class="form-control w-auto mx-auto">
+        </div>
+    </div>
+
+    <div id="categories-container" class="row">
+        <!-- Almuerzo -->
+        <div class="col-md-6 mb-4">
+            <h5>Almuerzo</h5>
+            <div id="almuerzo-list" class="item-list">
+                <div class="d-flex align-items-center mb-2">
+                    <select class="form-select">
+                        <option value="" selected>Seleccionar</option>
+                        <option value="Pizza">Pizza</option>
+                        <option value="Papas fritas">Papas fritas</option>
+                        <option value="Sopa">Sopa</option>
+                    </select>
+                    <div class="ms-2">
+                        <button class="btn btn-dark btn-sm add-item">+</button>
+                        <button class="btn btn-danger btn-sm remove-item">-</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ensalada -->
+        <div class="col-md-6 mb-4">
+            <h5>Ensalada</h5>
+            <div id="ensalada-list" class="item-list">
+                <div class="d-flex align-items-center mb-2">
+                    <select class="form-select">
+                        <option value="" selected>Seleccionar</option>
+                        <option value="Tomates">Tomates</option>
+                        <option value="Lechuga">Lechuga</option>
+                        <option value="Huevo Duro">Huevo Duro</option>
+                    </select>
+                    <div class="ms-2">
+                        <button class="btn btn-dark btn-sm add-item">+</button>
+                        <button class="btn btn-danger btn-sm remove-item">-</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bebestible -->
+        <div class="col-md-6 mb-4">
+            <h5>Bebestible</h5>
+            <div id="bebestible-list" class="item-list">
+                <div class="d-flex align-items-center mb-2">
+                    <select class="form-select">
+                        <option value="" selected>Seleccionar</option>
+                        <option value="Agua Mineral">Agua Mineral</option>
+                        <option value="Jugo Natural">Jugo Natural</option>
+                        <option value="Coca Cola">Coca Cola</option>
+                    </select>
+                    <div class="ms-2">
+                        <button class="btn btn-dark btn-sm add-item">+</button>
+                        <button class="btn btn-danger btn-sm remove-item">-</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Postre -->
+        <div class="col-md-6 mb-4">
+            <h5>Postre</h5>
+            <div id="postre-list" class="item-list">
+                <div class="d-flex align-items-center mb-2">
+                    <select class="form-select">
+                        <option value="" selected>Seleccionar</option>
+                        <option value="Helado de Chocolate">Helado de Chocolate</option>
+                        <option value="Jalea de Frutas">Jalea de Frutas</option>
+                        <option value="Cocktail de Frutas">Cocktail de Frutas</option>
+                    </select>
+                    <div class="ms-2">
+                        <button class="btn btn-dark btn-sm add-item">+</button>
+                        <button class="btn btn-danger btn-sm remove-item">-</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <button class="btn btn-success">Crear Carta</button>
+        <a href="{{ url_for('cocineros.cartas_menu') }}" class="btn btn-danger">Volver</a>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script src="{{ url_for('static', filename='js/cocineros/cartas-crear.js' )}}"></script>
+
+{% endblock %}

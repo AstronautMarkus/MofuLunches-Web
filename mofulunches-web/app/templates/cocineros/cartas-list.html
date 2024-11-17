@@ -1,0 +1,96 @@
+{% extends "base/base.html" %}
+
+{% block title %}MofuLunches - Listar carta{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cocineros/cartas_list.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5" data-aos="fade-up" data-aos-delay="100">
+
+    <div class="text-center mb-4" data-aos="fade-down" data-aos-delay="200">
+        <h1 class="display-5">Listar cartas</h1>
+        <p class="lead">Selecciona una carta para revisar sus detalles.</p>
+    </div>
+    
+    <div class="card shadow-sm mb-4" data-aos="fade-right" data-aos-delay="300">
+        <div class="card-header">
+            <h5 class="m-0">Cartas disponibles</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr data-aos="fade-up" data-aos-delay="400">
+                        <th>Fecha</th>
+                        <th>Alimentos</th>
+                        <th>Calificaciones</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for carta in cartas %}
+                    <tr data-aos="fade-up" data-aos-delay="{{ loop.index * 100 + 500 }}">
+                        <td>{{ carta.fecha }}</td>
+                        <td>
+                            <ul>
+                                {% for alimento in carta.alimento %}
+                                <li>{{ alimento.nombre }} ({{ alimento.tipo }})</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <div class="stars">
+                                {% for i in range(1, 6) %}
+                                    {% if i <= carta.calificaciones|round %}
+                                        ⭐
+                                    {% else %}
+                                        ☆
+                                    {% endif %}
+                                {% endfor %}
+                                ({{carta.calificaciones}})
+                            </div>
+                        </td>
+                        
+                        <td>
+                            <button class="btn btn-sm btn-success">Editar</button>
+                            <button class="btn btn-sm btn-danger">Desactivar</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>                
+            </table>
+        </div>
+    </div>
+
+    <div class="card shadow-sm" data-aos="fade-left" data-aos-delay="600">
+        <div class="card-header">
+            <h5 class="m-0">Filtrar por fecha</h5>
+        </div>
+        <div class="card-body">
+            <form action="" method="GET">
+                <div class="row align-items-end">
+                    <div class="col-md-5" data-aos="fade-up" data-aos-delay="700">
+                        <label for="desde" class="form-label">Desde</label>
+                        <input type="date" id="desde" name="desde" class="form-control">
+                    </div>
+                    <div class="col-md-5" data-aos="fade-up" data-aos-delay="800">
+                        <label for="hasta" class="form-label">Hasta</label>
+                        <input type="date" id="hasta" name="hasta" class="form-control">
+                    </div>
+                    <div class="col-md-2 text-center" data-aos="fade-up" data-aos-delay="900">
+                        <button type="submit" class="btn btn-success w-100 mb-2">Filtrar</button>
+                        <a href="{{ url_for('cocineros.cartas_list') }}" class="btn btn-warning w-100 mb-2">Limpiar</a>
+                        <a href="{{ url_for('cocineros.cartas_menu') }}" class="btn btn-danger w-100">Volver</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}
