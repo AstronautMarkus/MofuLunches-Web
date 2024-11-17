@@ -18,6 +18,7 @@
 
 .user-info .user-name {
     margin-left: 0.5rem;
+    font-size: 1.2rem; /* Enlarged user name */
 }
 
 .title {
@@ -54,16 +55,41 @@
     opacity: 0.8;
 }
 
-.navbar-toggler {
-    border: none;
+.btn-hamburger {
     background: none;
+    border: none;
     color: white;
     font-size: 1.5rem;
     cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.btn-hamburger:hover {
+    opacity: 0.8;
+}
+
+.dropdown-menu {
+    min-width: 200px;
+    padding: 1rem;
+    background-color: #343a40;
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.dropdown-menu .user-info {
+    color: white;
+}
+
+.dropdown-menu .btn-logout-icon {
+    color: white;
+}
+
+.navbar-toggler {
+    border: none;
 }
 
 .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' linecap='round' linejoin='round' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
 @media (max-width: 768px) {
