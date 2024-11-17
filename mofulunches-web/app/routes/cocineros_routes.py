@@ -23,10 +23,12 @@ def before_request():
 def cocineros_index():
     return render_template('cocineros/cocineros-menu.html', user=g.user)
 
+# Cocineros cartas views start
+
 @cocineros_bp.route('/cartas-menu')
 @role_required('cocineros')
 def cartas_menu():
-    return render_template('cocineros/cartas-menu.html', user=g.user)
+    return render_template('cocineros/cartas/cartas-menu.html', user=g.user)
 
 @cocineros_bp.route('/cartas-list')
 @role_required('cocineros')
@@ -64,22 +66,59 @@ def cartas_list():
             "calificaciones": 1.5
         }
     ]
-    return render_template('cocineros/cartas-list.html', user=g.user, cartas=cartas)
+    return render_template('cocineros/cartas/cartas-list.html', user=g.user, cartas=cartas)
 
 @cocineros_bp.route('/cartas-crear')
 @role_required('cocineros')
 def cartas_crear():
-    return render_template('cocineros/cartas-crear.html', user=g.user)
+    return render_template('cocineros/cartas/cartas-crear.html', user=g.user)
 
+@cocineros_bp.route('/cartas-editar')
+@role_required('cocineros')
+def cartas_editar():
+    return render_template('cocineros/cartas/cartas-editar.html', user=g.user)
+
+@cocineros_bp.route('/cartas-eliminar')
+@role_required('cocineros')
+def cartas_eliminar():
+    return render_template('cocineros/cartas/cartas-eliminar.html', user=g.user)
+
+# Cocineros cartas views end
+
+# Cocineros platillos views start
 
 @cocineros_bp.route('/platillos-menu')
 @role_required('cocineros')
 def platillos_menu():
-    return render_template('cocineros/platillos-menu.html', user=g.user)
+    return render_template('cocineros/platillos/platillos-menu.html', user=g.user)
+
+# Cocineros platillos views end
+
+# Cocineros ingredientes views start
 
 @cocineros_bp.route('/ingredientes-menu')
 @role_required('cocineros')
 def ingredientes_menu():
-    return render_template('cocineros/ingredientes-menu.html', user=g.user)
+    return render_template('cocineros/ingredientes/ingredientes-menu.html', user=g.user)
 
+@cocineros_bp.route('/ingredientes-list')
+@role_required('cocineros')
+def ingredientes_list():
+    return render_template('cocineros/ingredientes/ingredientes-list.html', user=g.user)
 
+@cocineros_bp.route('/ingredientes-crear')
+@role_required('cocineros')
+def ingredientes_crear():
+    return render_template('cocineros/ingredientes/ingredientes-crear.html', user=g.user)
+
+@cocineros_bp.route('/ingredientes-editar')
+@role_required('cocineros')
+def ingredientes_editar():
+    return render_template('cocineros/ingredientes/ingredientes-editar.html', user=g.user)
+
+@cocineros_bp.route('/ingredientes-eliminar')
+@role_required('cocineros')
+def ingredientes_eliminar():
+    return render_template('cocineros/ingredientes/ingredientes-eliminar.html', user=g.user)
+
+# Cocineros ingredientes views end
