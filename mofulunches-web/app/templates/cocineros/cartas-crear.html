@@ -8,13 +8,13 @@
 
 
 {% block body %}
-<div class="container mt-5">
-    <div class="text-center mb-4">
+<div class="container mt-5" data-aos="fade-up">
+    <div class="text-center mb-4" data-aos="fade-up" data-aos-delay="100">
         <h1 class="display-5">Crear Carta</h1>
         <p class="lead">Selecciona los alimentos y categorías para crear una nueva carta.</p>
     </div>
 
-    <div class="row mb-3">
+    <div class="row mb-3" data-aos="fade-up" data-aos-delay="200">
         <div class="col text-center">
             <label for="fecha" class="form-label">Selecciona fecha</label>
             <input type="date" id="fecha" name="fecha" class="form-control w-auto mx-auto">
@@ -23,15 +23,12 @@
 
     <div id="categories-container" class="row">
         <!-- Almuerzo -->
-        <div class="col-md-6 mb-4">
+        <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
             <h5>Almuerzo</h5>
             <div id="almuerzo-list" class="item-list">
                 <div class="d-flex align-items-center mb-2">
                     <select class="form-select">
                         <option value="" selected>Seleccionar</option>
-                        <option value="Pizza">Pizza</option>
-                        <option value="Papas fritas">Papas fritas</option>
-                        <option value="Sopa">Sopa</option>
                     </select>
                     <div class="ms-2">
                         <button class="btn btn-dark btn-sm add-item">+</button>
@@ -42,15 +39,12 @@
         </div>
 
         <!-- Ensalada -->
-        <div class="col-md-6 mb-4">
+        <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
             <h5>Ensalada</h5>
             <div id="ensalada-list" class="item-list">
                 <div class="d-flex align-items-center mb-2">
                     <select class="form-select">
                         <option value="" selected>Seleccionar</option>
-                        <option value="Tomates">Tomates</option>
-                        <option value="Lechuga">Lechuga</option>
-                        <option value="Huevo Duro">Huevo Duro</option>
                     </select>
                     <div class="ms-2">
                         <button class="btn btn-dark btn-sm add-item">+</button>
@@ -61,15 +55,12 @@
         </div>
 
         <!-- Bebestible -->
-        <div class="col-md-6 mb-4">
+        <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="500">
             <h5>Bebestible</h5>
             <div id="bebestible-list" class="item-list">
                 <div class="d-flex align-items-center mb-2">
                     <select class="form-select">
                         <option value="" selected>Seleccionar</option>
-                        <option value="Agua Mineral">Agua Mineral</option>
-                        <option value="Jugo Natural">Jugo Natural</option>
-                        <option value="Coca Cola">Coca Cola</option>
                     </select>
                     <div class="ms-2">
                         <button class="btn btn-dark btn-sm add-item">+</button>
@@ -80,15 +71,12 @@
         </div>
 
         <!-- Postre -->
-        <div class="col-md-6 mb-4">
+        <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="600">
             <h5>Postre</h5>
             <div id="postre-list" class="item-list">
                 <div class="d-flex align-items-center mb-2">
                     <select class="form-select">
                         <option value="" selected>Seleccionar</option>
-                        <option value="Helado de Chocolate">Helado de Chocolate</option>
-                        <option value="Jalea de Frutas">Jalea de Frutas</option>
-                        <option value="Cocktail de Frutas">Cocktail de Frutas</option>
                     </select>
                     <div class="ms-2">
                         <button class="btn btn-dark btn-sm add-item">+</button>
@@ -99,11 +87,18 @@
         </div>
     </div>
 
-    <div class="text-center mt-4">
+    <div class="text-center mt-4" data-aos="fade-up" data-aos-delay="700">
         <button class="btn btn-success">Crear Carta</button>
         <a href="{{ url_for('cocineros.cartas_menu') }}" class="btn btn-danger">Volver</a>
     </div>
+
+
+    <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="800">
+        <a href="">¿Agregar más ingredientes?</a>
+    </div>
+
 </div>
+
 
 {% endblock %}
 
