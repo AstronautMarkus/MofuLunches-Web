@@ -12,7 +12,52 @@
         <h1 class="display-5">Listar ingredientes</h1>
         <p class="lead">Selecciona un ingrediente para revisar sus detalles.</p>
     </div>
-    
+
+
+    <div class="card shadow-sm mb-4" data-aos="fade-right" data-aos-delay="300">
+        <div class="card-header">
+            <h5 class="m-0">Lista de Ingredientes</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr data-aos="fade-up" data-aos-delay="400">
+                        <th>Código</th>
+                        <th>Nombre del Platillo</th>
+                        <th>Tipo</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for platillo in platillos %}
+                    <tr data-aos="fade-up" data-aos-delay="{{ loop.index * 100 + 500 }}">
+                        <td>{{ platillo.id }}</td>
+                        <td>{{ platillo.nombre }}</td>
+                        <td>{{ platillo.tipo }}</td>
+                        <td>
+                            <a href="" class="btn btn-sm btn-success">Editar</a>
+                            <button class="btn btn-sm btn-danger">Desactivar</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card-body">
+            <div class="row justify-content-end align-items-end">
+            <div class="col-md-2 text-center" data-aos="fade-up" data-aos-delay="900">
+                <a href="{{ url_for('cocineros.ingredientes_menu') }}" class="btn btn-secondary w-100">Volver</a>
+            </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
 </div>
 {% endblock %}
 

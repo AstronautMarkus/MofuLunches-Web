@@ -85,15 +85,6 @@ def cartas_eliminar():
 
 # Cocineros cartas views end
 
-# Cocineros platillos views start
-
-@cocineros_bp.route('/platillos-menu')
-@role_required('cocineros')
-def platillos_menu():
-    return render_template('cocineros/platillos/platillos-menu.html', user=g.user)
-
-# Cocineros platillos views end
-
 # Cocineros ingredientes views start
 
 @cocineros_bp.route('/ingredientes-menu')
@@ -104,7 +95,31 @@ def ingredientes_menu():
 @cocineros_bp.route('/ingredientes-list')
 @role_required('cocineros')
 def ingredientes_list():
-    return render_template('cocineros/ingredientes/ingredientes-list.html', user=g.user)
+
+    platillos = [
+    {
+        "id": 1,
+        "nombre": "Ensalada de Lechuga y Tomate",
+        "tipo": "Entrada"
+    },
+    {
+        "id": 2,
+        "nombre": "Pollo a la Parrilla",
+        "tipo": "Plato principal"
+    },
+    {
+        "id": 3,
+        "nombre": "Churrasco de Pescado",
+        "tipo": "Plato principal"
+    },
+    {
+        "id": 4,
+        "nombre": "Churrasco Mixto",
+        "tipo": "Plato principal"
+    }
+    ]
+
+    return render_template('cocineros/ingredientes/ingredientes-list.html', user=g.user, platillos=platillos)
 
 @cocineros_bp.route('/ingredientes-crear')
 @role_required('cocineros')
