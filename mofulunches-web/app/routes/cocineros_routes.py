@@ -100,22 +100,22 @@ def ingredientes_list():
     {
         "id": 1,
         "nombre": "Ensalada de Lechuga y Tomate",
-        "tipo": "Entrada"
+        "tipo": "ensalada"
     },
     {
         "id": 2,
-        "nombre": "Pollo a la Parrilla",
-        "tipo": "Plato principal"
+        "nombre": "Coca cola de piña",
+        "tipo": "refresco"
     },
     {
         "id": 3,
         "nombre": "Churrasco de Pescado",
-        "tipo": "Plato principal"
+        "tipo": "almuerzo"
     },
     {
         "id": 4,
         "nombre": "Churrasco Mixto",
-        "tipo": "Plato principal"
+        "tipo": "almuerzo"
     }
     ]
 
@@ -124,12 +124,32 @@ def ingredientes_list():
 @cocineros_bp.route('/ingredientes-crear')
 @role_required('cocineros')
 def ingredientes_crear():
-    return render_template('cocineros/ingredientes/ingredientes-crear.html', user=g.user)
+    ingredientes_categorias = [
+        {"value": "", "label": "Selecciona un tipo", "selected": True},
+        {"value": "almuerzo", "label": "Almuerzo"},
+        {"value": "ensalada", "label": "Ensalada"},
+        {"value": "refresco", "label": "Refresco"}
+    ]
+
+    return render_template(
+        'cocineros/ingredientes/ingredientes-crear.html',
+        user=g.user,
+        ingredientes_categorias=ingredientes_categorias
+    )
+
 
 @cocineros_bp.route('/ingredientes-editar')
 @role_required('cocineros')
 def ingredientes_editar():
-    return render_template('cocineros/ingredientes/ingredientes-editar.html', user=g.user)
+        
+    ingredientes_categorias = [
+        {"value": "", "label": "Selecciona un tipo", "selected": True},
+        {"value": "almuerzo", "label": "Almuerzo"},
+        {"value": "ensalada", "label": "Ensalada"},
+        {"value": "refresco", "label": "Refresco"}
+    ]
+    
+    return render_template('cocineros/ingredientes/ingredientes-editar.html', user=g.user, ingredientes_categorias=ingredientes_categorias)
 
 @cocineros_bp.route('/ingredientes-eliminar')
 @role_required('cocineros')

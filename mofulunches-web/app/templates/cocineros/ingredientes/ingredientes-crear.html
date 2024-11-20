@@ -1,0 +1,58 @@
+{% extends "base/base.html" %}
+
+{% block title %}MofuLunches - Crear Ingrediente{% endblock %}
+
+{% block extra_css %}
+
+{% endblock %}
+
+
+{% block body %}
+<div class="container mt-5" data-aos="fade-up">
+    <div class="text-center mb-4" data-aos="fade-up" data-aos-delay="100">
+        <h1 class="display-5">Crear Ingrediente</h1>
+        <p class="lead">Rellena los datos para crear un nuevo ingrediente.</p>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="POST" action="">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="nombre" class="form-label">Nombre del Ingrediente</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                            </div>
+                            <div class="col-md-4 mb-3 d-flex align-items-end">
+                                <div class="d-grid w-100">
+                                    <button type="submit" class="btn btn-primary btn-block">Crear Ingrediente</button>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="tipo" class="form-label">Tipo de Ingrediente</label>
+                                <select class="form-select" id="tipo" name="tipo" required>
+                                    {% for categoria in ingredientes_categorias %}
+                                        <option value="{{ categoria.value }}" {% if categoria.selected %}selected{% endif %}>
+                                            {{ categoria.label }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="d-grid mt-3">
+                            <a href="{{ url_for('cocineros.ingredientes_menu') }}" class="btn btn-danger btn-block">Regresar</a>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+
+
+
+{% endblock %}

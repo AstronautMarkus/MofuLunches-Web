@@ -33,10 +33,10 @@
                     <tr data-aos="fade-up" data-aos-delay="{{ loop.index * 100 + 500 }}">
                         <td>{{ platillo.id }}</td>
                         <td>{{ platillo.nombre }}</td>
-                        <td>{{ platillo.tipo }}</td>
+                        <td>{{ platillo.tipo|capitalize }}</td>
                         <td>
-                            <a href="" class="btn btn-sm btn-success">Editar</a>
-                            <button class="btn btn-sm btn-danger">Desactivar</button>
+                            <a href="{{ url_for('cocineros.ingredientes_editar') }}" class="btn btn-sm btn-primary">Editar</a>
+                            <button class="btn btn-sm btn-warning">Desactivar</button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -52,7 +52,7 @@
         <div class="card-body">
             <div class="row justify-content-end align-items-end">
             <div class="col-md-2 text-center" data-aos="fade-up" data-aos-delay="900">
-                <a href="{{ url_for('cocineros.ingredientes_menu') }}" class="btn btn-secondary w-100">Volver</a>
+                <a href="{{ url_for('cocineros.ingredientes_menu') }}" class="btn btn-danger w-100">Volver</a>
             </div>
             </div>
         </div>
