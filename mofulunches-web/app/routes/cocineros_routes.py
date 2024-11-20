@@ -39,9 +39,9 @@ def cartas_list():
             "id": 1,
             "fecha": "2024-11-16",
             "alimento": [
-                {"id": 1, "nombre": "Ensalada César", "tipo": "Entrada"},
-                {"id": 2, "nombre": "Lomo Saltado", "tipo": "Plato Fuerte"},
-                {"id": 3, "nombre": "Tarta de Limón", "tipo": "Postre"}
+                {"id": 1, "nombre": "Ensalada César", "tipo": "Ensalada"},
+                {"id": 2, "nombre": "Lomo Saltado", "tipo": "Almuerzo"},
+                {"id": 3, "nombre": "Coca cola", "tipo": "Bebestible"}
             ],
             "calificaciones": 4.5
         },
@@ -49,23 +49,74 @@ def cartas_list():
             "id": 2,
             "fecha": "2024-11-17",
             "alimento": [
-                {"id": 4, "nombre": "Sopa de Tomate", "tipo": "Entrada"},
-                {"id": 5, "nombre": "Pollo a la Parrilla", "tipo": "Plato Fuerte"},
-                {"id": 6, "nombre": "Helado de Vainilla", "tipo": "Postre"}
+                {"id": 4, "nombre": "Sopa de Pollo", "tipo": "Entrada"},
+                {"id": 5, "nombre": "Pizza Margarita", "tipo": "Almuerzo"},
+                {"id": 6, "nombre": "Limonada", "tipo": "Bebestible"}
             ],
-            "calificaciones": 2.1
+            "calificaciones": 3.8
         },
         {
             "id": 3,
             "fecha": "2024-11-18",
             "alimento": [
                 {"id": 7, "nombre": "Bruschetta", "tipo": "Entrada"},
-                {"id": 8, "nombre": "Risotto de Champiñones", "tipo": "Plato Fuerte"},
-                {"id": 9, "nombre": "Brownie con Helado", "tipo": "Postre"},
+                {"id": 8, "nombre": "Espagueti Carbonara", "tipo": "Almuerzo"},
+                {"id": 9, "nombre": "Té Helado", "tipo": "Bebestible"}
             ],
-            "calificaciones": 1.5
+            "calificaciones": 4.2
+        },
+        {
+            "id": 4,
+            "fecha": "2024-11-19",
+            "alimento": [
+                {"id": 10, "nombre": "Crema de Tomate", "tipo": "Entrada"},
+                {"id": 11, "nombre": "Pollo al Curry", "tipo": "Almuerzo"},
+                {"id": 12, "nombre": "Agua Mineral", "tipo": "Bebestible"}
+            ],
+            "calificaciones": 4.8
+        },
+        {
+            "id": 5,
+            "fecha": "2024-11-20",
+            "alimento": [
+                {"id": 13, "nombre": "Croquetas de Jamón", "tipo": "Entrada"},
+                {"id": 14, "nombre": "Paella", "tipo": "Almuerzo"},
+                {"id": 15, "nombre": "Sangría", "tipo": "Bebestible"}
+            ],
+            "calificaciones": 5.0
+        },
+        {
+            "id": 6,
+            "fecha": "2024-11-21",
+            "alimento": [
+                {"id": 16, "nombre": "Ensalada Griega", "tipo": "Ensalada"},
+                {"id": 17, "nombre": "Hamburguesa Clásica", "tipo": "Almuerzo"},
+                {"id": 18, "nombre": "Refresco de Naranja", "tipo": "Bebestible"}
+            ],
+            "calificaciones": 3.2
+        },
+        {
+            "id": 7,
+            "fecha": "2024-11-22",
+            "alimento": [
+                {"id": 19, "nombre": "Queso Brie con Frutas", "tipo": "Entrada"},
+                {"id": 20, "nombre": "Risotto de Hongos", "tipo": "Almuerzo"},
+                {"id": 21, "nombre": "Vino Blanco", "tipo": "Bebestible"}
+            ],
+            "calificaciones": 4.7
+        },
+        {
+            "id": 8,
+            "fecha": "2024-11-23",
+            "alimento": [
+                {"id": 22, "nombre": "Caprese", "tipo": "Entrada"},
+                {"id": 23, "nombre": "Asado de Tira", "tipo": "Almuerzo"},
+                {"id": 24, "nombre": "Cerveza Artesanal", "tipo": "Bebestible"}
+            ],
+            "calificaciones": 2.9
         }
     ]
+
     return render_template('cocineros/cartas/cartas-list.html', user=g.user, cartas=cartas)
 
 @cocineros_bp.route('/cartas-crear')

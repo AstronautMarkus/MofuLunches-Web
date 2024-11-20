@@ -17,8 +17,8 @@
         <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
             <div class="card dashboard-card shadow text-center">
                 <div class="card-body">
-                    <div class="card-icon text-primary mb-3">
-                        <i class="fa-solid fa-circle"></i>
+                    <div class="card-icon item-primary mb-3">
+                        <i class="fa-solid fa-burger"></i>
                     </div>
                     <h5 class="card-title">Listar ingredientes</h5>
                     <p class="card-text">Lista todos los ingredientes registradas en el sistema.</p>
@@ -30,12 +30,12 @@
         <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
             <div class="card dashboard-card shadow text-center">
                 <div class="card-body">
-                    <div class="card-icon text-success mb-3">
+                    <div class="card-icon item-secondary mb-3">
                         <i class="fa-solid fa-circle-plus"></i>
                     </div>
                     <h5 class="card-title">Crear ingredientes</h5>
-                    <p class="card-text">Crea nuevos ingredientes para agregarlos en las <a href="{{ url_for('cocineros.cartas_menu')}}">cartas de menú</a>.</p>
-                    <a href="{{ url_for('cocineros.ingredientes_crear') }}" class="btn btn-success btn-custom">Crear</a>
+                    <p class="card-text">Crea nuevos ingredientes para agregarlos en las <a class="item-primary" href="{{ url_for('cocineros.cartas_menu')}}">cartas de menú</a>.</p>
+                    <a href="{{ url_for('cocineros.ingredientes_crear') }}" class="btn btn-secondary btn-custom">Crear</a>
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
         <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
             <div class="card dashboard-card shadow text-center">
                 <div class="card-body">
-                    <div class="card-icon text-danger mb-3">
+                    <div class="card-icon item-danger mb-3">
                         <i class="fas fa-sign-out-alt"></i>
                     </div>
                     <h5 class="card-title">Volver</h5>

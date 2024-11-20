@@ -3,7 +3,7 @@
 {% block title %}MofuLunches - Menú de ingredientes{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/components/dashboard_cards.css') }}">
+
 {% endblock %}
 
 {% block body %}
@@ -18,10 +18,10 @@
         <div class="card-header">
             <h5 class="m-0">Lista de Ingredientes</h5>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="max-height: 500px; overflow-y: auto;">
             <table class="table table-striped">
                 <thead>
-                    <tr data-aos="fade-up" data-aos-delay="400">
+                    <tr>
                         <th>Código</th>
                         <th>Nombre del Platillo</th>
                         <th>Tipo</th>
@@ -30,7 +30,7 @@
                 </thead>
                 <tbody>
                     {% for platillo in platillos %}
-                    <tr data-aos="fade-up" data-aos-delay="{{ loop.index * 100 + 500 }}">
+                    <tr>
                         <td>{{ platillo.id }}</td>
                         <td>{{ platillo.nombre }}</td>
                         <td>{{ platillo.tipo|capitalize }}</td>
@@ -45,21 +45,16 @@
         </div>
 
 
-        <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="800">
-            <a href="{{ url_for('cocineros.ingredientes_crear') }}" target="_blank">Agregar ingrediente</a>
-        </div>
-
         <div class="card-body">
-            <div class="row justify-content-end align-items-end">
-            <div class="col-md-2 text-center" data-aos="fade-up" data-aos-delay="900">
+            <div class="row justify-content-end align-items-center">
+            <div class="col-md-2 text-center" data-aos="fade-left" data-aos-delay="600">
+                <a href="{{ url_for('cocineros.ingredientes_crear') }}" class="btn btn-primary w-100 mb-2">Crear nuevo</a>
                 <a href="{{ url_for('cocineros.ingredientes_menu') }}" class="btn btn-danger w-100">Volver</a>
             </div>
             </div>
         </div>
 
     </div>
-
-
 
 
 

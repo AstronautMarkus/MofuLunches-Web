@@ -9,10 +9,16 @@
     --header-cocineros-tertiary: #8E44AD; 
 }
 
-
 .header-gradient {
     background: linear-gradient(135deg, var(--header-normal-primary) 0%, var(--header-normal-secondary) 100%);
     color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem; /* Thinner padding */
+    border-bottom: 1px solid;
+    text-align: left; /* Align text to the left */
+    flex-wrap: nowrap; /* Prevent wrapping */
 }
 
 .header-admin {
@@ -29,16 +35,7 @@
 
 .title {
     font-family: 'SUSE', sans-serif;
-}
-
-.header-gradient {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    border-bottom: 1px solid;
-    text-align: center;
-    flex-wrap: wrap;
+    margin: 0; /* Remove auto margin */
 }
 
 .user-info {
@@ -52,10 +49,6 @@
 .user-info .user-name {
     margin-left: 0.5rem;
     font-size: 1.2rem; /* Enlarged user name */
-}
-
-.title {
-    margin: 0 auto;
 }
 
 .btn-logout {
@@ -133,4 +126,9 @@
         width: 100%;
         text-align: left;
     }
+}
+
+.logo-img {
+    width: 40px; /* Adjust size as needed */
+    height: auto;
 }

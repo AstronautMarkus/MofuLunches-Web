@@ -18,10 +18,10 @@
         <div class="card-header">
             <h5 class="m-0">Cartas disponibles</h5>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="max-height: 500px; overflow-y: auto;">
             <table class="table table-striped">
                 <thead>
-                    <tr data-aos="fade-up" data-aos-delay="400">
+                    <tr>
                         <th>Fecha</th>
                         <th>Alimentos</th>
                         <th>Calificaciones</th>
@@ -30,7 +30,7 @@
                 </thead>
                 <tbody>
                     {% for carta in cartas %}
-                    <tr data-aos="fade-up" data-aos-delay="{{ loop.index * 100 + 500 }}">
+                    <tr>
                         <td>{{ carta.fecha }}</td>
                         <td>
                             <ul>
@@ -40,21 +40,16 @@
                             </ul>
                         </td>
                         <td>
-                            <div class="stars">
-                                {% for i in range(1, 6) %}
-                                    {% if i <= carta.calificaciones|round %}
-                                        ⭐
-                                    {% else %}
-                                        ☆
-                                    {% endif %}
-                                {% endfor %}
-                                ({{carta.calificaciones}})
+                            <div class="stars" style="--rating: {{ carta.calificaciones }};">
+                                <span>★★★★★</span>
+                                <span>☆☆☆☆☆</span>
                             </div>
+                            ({{ carta.calificaciones }})
                         </td>
                         
                         <td>
-                            <a href="{{ url_for('cocineros.cartas_editar') }}" class="btn btn-sm btn-success">Editar</a>
-                            <button class="btn btn-sm btn-danger">Desactivar</button>
+                            <a href="{{ url_for('cocineros.cartas_editar') }}" class="btn btn-sm btn-primary">Editar</a>
+                            <button class="btn btn-sm btn-warning">Desactivar</button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -70,17 +65,17 @@
         <div class="card-body">
             <form action="" method="GET">
                 <div class="row align-items-end">
-                    <div class="col-md-5" data-aos="fade-up" data-aos-delay="700">
+                    <div class="col-md-5">
                         <label for="desde" class="form-label">Desde</label>
                         <input type="date" id="desde" name="desde" class="form-control">
                     </div>
-                    <div class="col-md-5" data-aos="fade-up" data-aos-delay="800">
+                    <div class="col-md-5">
                         <label for="hasta" class="form-label">Hasta</label>
                         <input type="date" id="hasta" name="hasta" class="form-control">
                     </div>
-                    <div class="col-md-2 text-center" data-aos="fade-up" data-aos-delay="900">
-                        <button type="submit" class="btn btn-success w-100 mb-2">Filtrar</button>
-                        <a href="{{ url_for('cocineros.cartas_list') }}" class="btn btn-warning w-100 mb-2">Limpiar</a>
+                    <div class="col-md-2 text-center">
+                        <button type="submit" class="btn btn-primary w-100 mb-2">Filtrar</button>
+                        <a href="{{ url_for('cocineros.cartas_list') }}" class="btn btn-secondary w-100 mb-2">Limpiar</a>
                         <a href="{{ url_for('cocineros.cartas_menu') }}" class="btn btn-danger w-100">Volver</a>
                     </div>
                 </div>
@@ -92,5 +87,14 @@
 {% endblock %}
 
 {% block extra_js %}
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.stars');
+        stars.forEach(star => {
+            const rating = parseFloat(star.style.getPropertyValue('--rating'));
+            const percentage = (rating / 5) * 100;
+            star.querySelector('span:first-child').style.width = `${percentage}%`;
+        });
+    });
+</script>
 {% endblock %}

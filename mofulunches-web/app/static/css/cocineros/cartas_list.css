@@ -22,3 +22,20 @@
     padding: 0.25rem 0.5rem;
     font-size: 0.875rem;
 }
+
+.stars {
+    display: inline-block;
+    font-size: 1.5rem;
+    line-height: 1;
+    position: relative;
+    color: #e4e5e9;
+}
+
+.stars span:first-child {
+    color: #ffc107;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+}

@@ -8,22 +8,22 @@
 
 
 {% block body %}
-<div class="container mt-5" data-aos="fade-up">
-    <div class="text-center mb-4" data-aos="fade-up" data-aos-delay="100">
+<div class="container mt-5">
+    <div class="text-center mb-4">
         <h1 class="display-5">Crear Carta</h1>
         <p class="lead">Selecciona los alimentos y categorías para crear una nueva carta.</p>
     </div>
 
-    <div class="row mb-3" data-aos="fade-up" data-aos-delay="200">
+    <div class="row mb-3">
         <div class="col text-center">
             <label for="fecha" class="form-label">Selecciona fecha</label>
             <input type="date" id="fecha" name="fecha" class="form-control w-auto mx-auto">
         </div>
     </div>
 
-    <div id="categories-container" class="row">
+    <div id="categories-container" class="row" data-aos="fade-up">
         <!-- Almuerzo -->
-        <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="col-md-6 mb-4">
             <h5>Almuerzo</h5>
             <div id="almuerzo-list" class="item-list">
                 <div class="d-flex align-items-center mb-2">
@@ -39,7 +39,7 @@
         </div>
 
         <!-- Ensalada -->
-        <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+        <div class="col-md-6 mb-4">
             <h5>Ensalada</h5>
             <div id="ensalada-list" class="item-list">
                 <div class="d-flex align-items-center mb-2">
@@ -55,7 +55,7 @@
         </div>
 
         <!-- Bebestible -->
-        <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="500">
+        <div class="col-md-6 mb-4">
             <h5>Bebestible</h5>
             <div id="bebestible-list" class="item-list">
                 <div class="d-flex align-items-center mb-2">
@@ -70,8 +70,7 @@
             </div>
         </div>
 
-        <!-- Postre -->
-        <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="600">
+        <div class="col-md-6 mb-4">
             <h5>Postre</h5>
             <div id="postre-list" class="item-list">
                 <div class="d-flex align-items-center mb-2">
@@ -87,13 +86,13 @@
         </div>
     </div>
 
-    <div class="text-center mt-4" data-aos="fade-up" data-aos-delay="700">
+    <div class="text-center mt-4">
         <button class="btn btn-success">Crear Carta</button>
         <a href="{{ url_for('cocineros.cartas_menu') }}" class="btn btn-danger">Volver</a>
     </div>
 
 
-    <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="800">
+    <div class="text-center mt-5">
         <a href="{{ url_for('cocineros.ingredientes_list') }}" target="_blank">¿Agregar más ingredientes?</a>
     </div>
 
