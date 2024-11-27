@@ -19,21 +19,22 @@
             <h5 class="m-0">Lista de Ingredientes</h5>
         </div>
         <div class="card-body" style="max-height: 500px; overflow-y: auto;">
+            {% if ingredientes %}
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Código</th>
-                        <th>Nombre del Platillo</th>
+                        <th>Nombre del ingrediente</th>
                         <th>Tipo</th>
                         <th>Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for platillo in platillos %}
+                    {% for ingrediente in ingredientes %}
                     <tr>
-                        <td>{{ platillo.id }}</td>
-                        <td>{{ platillo.nombre }}</td>
-                        <td>{{ platillo.tipo|capitalize }}</td>
+                        <td>{{ ingrediente.id }}</td>
+                        <td>{{ ingrediente.nombre }}</td>
+                        <td>{{ ingrediente.tipo|capitalize }}</td>
                         <td>
                             <a href="{{ url_for('cocineros.ingredientes_editar') }}" class="btn btn-sm btn-primary">Editar</a>
                             <button class="btn btn-sm btn-warning">Desactivar</button>
@@ -42,6 +43,9 @@
                     {% endfor %}
                 </tbody>
             </table>
+            {% else %}
+            <p class="text-center">No hay ingredientes disponibles.</p>
+            {% endif %}
         </div>
 
 

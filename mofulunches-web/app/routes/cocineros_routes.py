@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session, g, request
+from flask import Blueprint, render_template, session, g, request, redirect, url_for, flash
 from functools import wraps
 import requests
 from dotenv import load_dotenv
@@ -27,7 +27,7 @@ def before_request():
 @cocineros_bp.route('/')
 @role_required('cocineros')
 def cocineros_index():
-    return render_template('cocineros/cocineros-menu.html', user=g.user)
+    return render_template('cocineros/index.html', user=g.user)
 
 # Cocineros cartas views start
 
@@ -87,34 +87,34 @@ def ingredientes_menu():
 @role_required('cocineros')
 def ingredientes_list():
 
-    platillos = [
-    {
-        "id": 1,
-        "nombre": "Ensalada de Lechuga y Tomate",
-        "tipo": "ensalada"
-    },
-    {
-        "id": 2,
-        "nombre": "Coca cola de piña",
-        "tipo": "refresco"
-    },
-    {
-        "id": 3,
-        "nombre": "Churrasco de Pescado",
-        "tipo": "almuerzo"
-    },
-    {
-        "id": 4,
-        "nombre": "Churrasco Mixto",
-        "tipo": "almuerzo"
-    }
-    ]
+    response = requests.get(f"{API_URL}/alimentos")
+    if response.status_code == 200:
+        ingredientes = response.json()
+    else:
+        ingredientes = []
 
-    return render_template('cocineros/ingredientes/ingredientes-list.html', user=g.user, platillos=platillos)
+    return render_template('cocineros/ingredientes/ingredientes-list.html', user=g.user, ingredientes=ingredientes)
 
-@cocineros_bp.route('/ingredientes-crear')
+@cocineros_bp.route('/ingredientes-crear', methods=['GET', 'POST'])
 @role_required('cocineros')
 def ingredientes_crear():
+    if request.method == 'POST':
+        nombre = request.form.get('nombre')
+        tipo = request.form.get('tipo')
+        
+        data = {
+            "nombre": nombre,
+            "tipo": tipo
+        }
+        
+        response = requests.post(f"{API_URL}/alimentos", json=data)
+        
+        if response.status_code == 201:
+            flash('Ingrediente creado exitosamente', 'success')
+            return redirect(url_for('cocineros.ingredientes_menu'))
+        else:
+            flash('Error al crear el ingrediente', 'danger')
+    
     ingredientes_categorias = [
         {"value": "", "label": "Selecciona un tipo", "selected": True},
         {"value": "almuerzo", "label": "Almuerzo"},
