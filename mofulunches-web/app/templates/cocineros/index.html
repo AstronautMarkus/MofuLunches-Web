@@ -9,7 +9,7 @@
 {% block body %}
 <div class="container mt-5">
     <div class="text-center mb-4">
-        <h1 class="display-5">Bienvenido al Panel de Cocineros, <strong>{{ user.nombres }} {{ user.apellidos }}</strong>!</h1>
+        <h1 class="display-5">Bienvenido al Panel de Cocineros, {{ user.nombre }} {{ user.apellido }}!</h1>
         <p class="lead">Aquí puedes gestionar cartas, platillos, ingredientes y mucho más.</p>
     </div>
     <div class="row justify-content-center">

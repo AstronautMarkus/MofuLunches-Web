@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session, g, jsonify, request
+from flask import Blueprint, render_template, session, g
 from functools import wraps
 import requests
 from dotenv import load_dotenv
