@@ -34,17 +34,17 @@
                         <td>{{ carta.fecha }}</td>
                         <td>
                             <ul>
-                                {% for alimento in carta.alimento %}
-                                <li>{{ alimento.nombre }} ({{ alimento.tipo }})</li>
+                                {% for alimento in carta.alimentos %}
+                                <li>{{ alimento.nombre }}</li>
                                 {% endfor %}
                             </ul>
                         </td>
                         <td>
-                            <div class="stars" style="--rating: {{ carta.calificaciones }};">
+                            <div class="stars" style="--rating: {{ carta.calificaciones.promedio }};">
                                 <span>★★★★★</span>
                                 <span>☆☆☆☆☆</span>
                             </div>
-                            ({{ carta.calificaciones }})
+                            ({{ carta.calificaciones.promedio }} de {{ carta.calificaciones.total_calificaciones }} calificaciones)
                         </td>
                         
                         <td>
