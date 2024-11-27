@@ -19,12 +19,12 @@ def before_request():
     g.user = session.get('user')
 
 @admin_bp.route('/')
-@role_required('administrador')
+@role_required('admin')
 def admin_index():
     return render_template('admin/index.html', user=g.user)
 
 @admin_bp.route('/usuarios-list')
-@role_required('administrador')
+@role_required('admin')
 def admin_usuarios():
     usuarios = [
         {"id": 1, "nombre": "Juan", "apellidos": "Pérez", "rut": "12345678-9", "rol": "admin", "rfid": "A1B2C3D4"},

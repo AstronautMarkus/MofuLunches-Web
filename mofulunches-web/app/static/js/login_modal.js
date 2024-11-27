@@ -24,35 +24,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
     loginForm.addEventListener("submit", async function (e) {
         e.preventDefault();
-
+    
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
-
+    
         const response = await fetch("/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ username, password, role: roleRequired })
+            body: JSON.stringify({ username, password })
         });
-
+    
         const result = await response.json();
-
+    
         flashContainer.innerHTML = "";
-
-        
+    
         if (result.message) {
             const flashMessage = document.createElement("div");
             flashMessage.classList.add("alert", `alert-${response.ok ? "success" : "error"}`);
             flashMessage.textContent = result.message;
             flashContainer.appendChild(flashMessage);
         }
-
-        
+    
         if (response.ok) {
             setTimeout(() => {
                 window.location.href = result.redirect_url;
             }, 1500);
         }
     });
+    
 });
