@@ -3,7 +3,7 @@
 {% block title %}MofuLunches - Admin{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/components/dashboard_cards.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin_table.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -17,11 +17,10 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Nombre</th>
-                    <th>Apellidos</th>
                     <th>RUT</th>
                     <th>Rol</th>
+                    <th>Correo electrónico</th>
                     <th>CÓDIGO RFID</th>
                     <th>Acciones</th>
                 </tr>
@@ -29,15 +28,14 @@
             <tbody id="user-table-body">
                 {% for usuario in usuarios %}
                 <tr>
-                    <td><strong>{{ usuario.id }}</strong></td>
-                    <td>{{ usuario.nombre|capitalize }}</td>
-                    <td>{{ usuario.apellidos|capitalize }}</td>
+                    <td>{{ usuario.nombre|capitalize }} {{ usuario.apellido|capitalize }}</td>
                     <td>{{ usuario.rut }}</td>
-                    <td>{{ usuario.rol|capitalize }}</td>
-                    <td>{{ usuario.rfid|upper }}</td>
+                    <td>{{ usuario.tipo_usuario|capitalize }}</td>
+                    <td>{{ usuario.correo }}</td>
+                    <td>{{ usuario.codigo_RFID|upper }}</td>
                     <td>
-                        <a href="" class="btn btn-sm btn-success">Editar</a>
-                        <a href="" class="btn btn-sm btn-danger">Activar/Desactivar</a>
+                        <a href="" class="btn btn-sm btn-primary">Editar</a>
+                        <a href="" class="btn btn-sm btn-warning">Desactivar</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -53,5 +51,13 @@
 {% endblock %}
 
 {% block extra_js %}
-
+<script src="{{ url_for('static', filename='js/admin/format_rut.js')}}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const rutCells = document.querySelectorAll('#user-table-body td:nth-child(2)');
+        rutCells.forEach(cell => {
+            cell.textContent = formatRUT(cell.textContent);
+        });
+    });
+</script>
 {% endblock %}
