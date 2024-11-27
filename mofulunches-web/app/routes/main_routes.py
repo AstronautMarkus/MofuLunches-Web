@@ -71,12 +71,12 @@ def login():
             return jsonify({"status": "error", "message": "Contraseña incorrecta."}), 401
         else:
             return jsonify({"status": "error", "message": api_data.get('error', 'Error desconocido.')}), response.status_code
-    except requests.RequestException as e:
-        return jsonify({"status": "error", "message": f"Error de conexión: {str(e)}"}), 500
+    except requests.RequestException:
+        return jsonify({"status": "error", "message": "Actualmente la API está experimentando problemas técnicos. Por favor, inténtelo nuevamente más tarde."}), 500
     except ValueError as ve:
         # Error handling for JSON parsing
         print("Error processing JSON from external API:", str(ve))
-        return jsonify({"status": "error", "message": f"Error procesando respuesta de la API: {str(ve)}"}), 500
+        return jsonify({"status": "error", "message": "Error procesando respuesta de la API."}), 500
 
 
 @main_bp.route('/logout', methods=['POST'])
