@@ -2,6 +2,20 @@ function setModalTitle(role) {
     document.getElementById('loginModalLabel').innerText = 'Login - ' + role;
 }
 
+function formatRUT(input) {
+    let value = input.value.replace(/[^0-9kK]/g, '');
+    if (value.length > 1) {
+        value = value.slice(0, -1) + '-' + value.slice(-1);
+    }
+    if (value.length > 4) {
+        value = value.slice(0, -5) + '.' + value.slice(-5);
+    }
+    if (value.length > 8) {
+        value = value.slice(0, -9) + '.' + value.slice(-9);
+    }
+    input.value = value;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const loginForm = document.querySelector("#loginModal form");
     const flashContainer = document.createElement("div");
@@ -22,11 +36,23 @@ document.addEventListener("DOMContentLoaded", function () {
         flashContainer.innerHTML = '';
     });
 
+    const loadingSpinner = document.getElementById("loading-spinner");
+
     loginForm.addEventListener("submit", async function (e) {
         e.preventDefault();
     
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
+        let username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        if (!username || !password) {
+            flashContainer.innerHTML = '<div class="alert alert-error">RUT y contraseña son requeridos.</div>';
+            return;
+        }
+
+        // Remove formatting from RUT
+        username = username.replace(/[\.\-]/g, '');
+
+        loadingSpinner.style.display = "block";
     
         const response = await fetch("/login", {
             method: "POST",
@@ -35,6 +61,8 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             body: JSON.stringify({ username, password })
         });
+
+        loadingSpinner.style.display = "none";
     
         const result = await response.json();
     
@@ -53,5 +81,4 @@ document.addEventListener("DOMContentLoaded", function () {
             }, 1500);
         }
     });
-    
 });

@@ -18,7 +18,7 @@
 
     <div class="row justify-content-center">
         <div class="col-md-4" data-aos="fade-up" data-aos-delay="250">
-            <a href="#" class="card-link" data-bs-toggle="modal" data-bs-target="#loginModal" onclick="setModalTitle('administrador')">
+            <a href="#" class="card-link" data-bs-toggle="modal" data-bs-target="#loginModal" onclick="setModalTitle('Administración')">
                 <div class="card mb-4 shadow-sm card-hover">
                     <img class="card-img-top" src="{{ url_for('static', filename='img/avatars/admin_image.png') }}" alt="Admin Image">
                     <div class="card-body text-center">
@@ -30,7 +30,7 @@
         </div>
 
         <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
-            <a href="#" class="card-link" data-bs-toggle="modal" data-bs-target="#loginModal" onclick="setModalTitle('cocineros')">
+            <a href="#" class="card-link" data-bs-toggle="modal" data-bs-target="#loginModal" onclick="setModalTitle('Cocineros')">
                 <div class="card mb-4 shadow-sm card-hover">
                     <img class="card-img-top" src="{{ url_for('static', filename='img/avatars/cocinero_image.png') }}" alt="Cocinero Image">
                     <div class="card-body text-center">
@@ -56,17 +56,21 @@
             <div class="modal-body">
                 
                 <div id="flash-messages" class="flash-container mb-3"></div>
-
                 <form>
                     <div class="mb-3">
                         <label for="username" class="form-label">RUT</label>
-                        <input type="text" class="form-control" id="username" placeholder="Ingrese su RUT">
+                        <input type="text" class="form-control" id="username" placeholder="Ingrese su RUT" oninput="this.value = this.value.replace(/[^0-9kK]/g, '')" minlength="9" maxlength="9" onblur="formatRUT(this)">
+                        <div class="form-text">Ingrese su RUT sin puntos ni guión, el sistema los agregará.</div>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Contraseña</label>
                         <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña">
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+                    <div class="mb-3 form-check"></div>
+                    <div class="d-flex justify-content-center">
+                        <div id="loading-spinner" class="spinner-border text-primary mt-3" role="status" style="display: none;"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 mt-3">Iniciar Sesión</button>
                 </form>
             </div>
         </div>
