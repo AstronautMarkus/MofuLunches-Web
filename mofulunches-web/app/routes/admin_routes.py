@@ -1,11 +1,15 @@
 from flask import Blueprint, render_template, session, g, request, flash, redirect, url_for
 from functools import wraps
-import requests
 from dotenv import load_dotenv
+import threading
+import requests
+import serial
+import time
 import os
 
 load_dotenv()
 API_URL = os.getenv('API_URL')
+
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -75,3 +79,19 @@ def crear_usuario():
     
     return render_template('admin/admin_crear_usuario.html', user=g.user)
 
+
+# Listen for RFID tags
+def serial_listener(socketio):
+    try:
+        arduino = serial.Serial('/dev/ttyS0', 9600)
+        time.sleep(2)  # Wait for the Arduino to initialize
+
+        while True:
+            if arduino.in_waiting > 0:
+                rfid_code = arduino.readline().decode('utf-8').strip()
+                print(f"RFID Detectado: {rfid_code}")
+                socketio.emit('rfid_detected', {'rfid': rfid_code}, namespace='/admin')  # Send RFID code to the client
+    except serial.SerialException as e:
+        print(f"Error al conectar con el puerto serial: {e}")
+    except Exception as e:
+        print(f"Error inesperado: {e}")
