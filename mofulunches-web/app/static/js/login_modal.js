@@ -25,8 +25,10 @@ document.addEventListener("DOMContentLoaded", function () {
     let roleRequired = "";
 
     window.setModalTitle = function (role) {
-        document.getElementById('loginModalLabel').innerText = 'Login - ' + role;
+        const roleTitle = role === 'admin' ? 'Administración' : 'Cocineros';
+        document.getElementById('loginModalLabel').innerText = 'Login - ' + roleTitle;
         roleRequired = role;
+        document.getElementById('role').value = role; // Set role in hidden input
     };
 
     const loginModal = document.getElementById('loginModal');
@@ -52,6 +54,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // Remove formatting from RUT
         username = username.replace(/[\.\-]/g, '');
 
+        const role = document.getElementById("role").value;
+
         loadingSpinner.style.display = "block";
     
         const response = await fetch("/login", {
@@ -59,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ username, password, role }) // Include role in request
         });
 
         loadingSpinner.style.display = "none";
