@@ -28,7 +28,8 @@ def index():
 
 @main_bp.route('/login', methods=['POST'])
 def login():
-    api_url = "http://127.0.0.1:5000/api/usuarios/login" # API URL
+    api_base_url = os.getenv('API_URL')  # Fetch base API URL from environment variables
+    api_url = f"{api_base_url}/usuarios/login"  # Append the specific endpoint to the base URL
     data = request.get_json()
 
     rut = data.get('username')  # 'username' is 'rut'
