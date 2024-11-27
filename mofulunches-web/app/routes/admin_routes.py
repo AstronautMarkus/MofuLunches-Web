@@ -6,13 +6,19 @@ import requests
 import serial
 import time
 import os
+from flask_socketio import SocketIO
 
+# Cargar variables de entorno
 load_dotenv()
 API_URL = os.getenv('API_URL')
 
+# Instancia global de SocketIO
+socketio = SocketIO()
 
+# Crear blueprint
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
+# Decorador para roles
 def role_required(role):
     def decorator(f):
         @wraps(f)
@@ -79,19 +85,24 @@ def crear_usuario():
     
     return render_template('admin/admin_crear_usuario.html', user=g.user)
 
-
-# Listen for RFID tags
-def serial_listener(socketio):
+# Escuchar el puerto serial para detectar códigos RFID
+def serial_listener():
     try:
-        arduino = serial.Serial('/dev/ttyS0', 9600)
-        time.sleep(2)  # Wait for the Arduino to initialize
+        arduino = serial.Serial('/dev/ttyUSB0', 9600)  # Cambia el puerto según tu configuración
+        time.sleep(2)  # Esperar que el Arduino esté listo
 
         while True:
             if arduino.in_waiting > 0:
                 rfid_code = arduino.readline().decode('utf-8').strip()
                 print(f"RFID Detectado: {rfid_code}")
-                socketio.emit('rfid_detected', {'rfid': rfid_code}, namespace='/admin')  # Send RFID code to the client
+                # Emitir el código RFID al cliente a través de SocketIO
+                socketio.emit('rfid_detected', {'rfid': rfid_code}, namespace='/admin')
     except serial.SerialException as e:
         print(f"Error al conectar con el puerto serial: {e}")
     except Exception as e:
         print(f"Error inesperado: {e}")
+
+# Iniciar hilo para escuchar el puerto serial
+def start_serial_listener():
+    thread = threading.Thread(target=serial_listener, daemon=True)
+    thread.start()
