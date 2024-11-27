@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session, g
+from flask import Blueprint, render_template, session, g, request, flash, redirect, url_for
 from functools import wraps
 import requests
 from dotenv import load_dotenv
@@ -38,4 +38,40 @@ def admin_usuarios():
     else:
         usuarios = []
     return render_template('admin/admin_listar_usuarios.html', user=g.user, usuarios=usuarios)
+
+@admin_bp.route('/crear-usuario', methods=['GET', 'POST'])
+@role_required('admin')
+def crear_usuario():
+    if request.method == 'POST':
+        nombre = request.form.get('nombre')
+        apellido = request.form.get('apellido')
+        correo = request.form.get('correo')
+        contrasena = request.form.get('contrasena')
+        rut = request.form.get('rut')
+        codigo_RFID = request.form.get('codigo_RFID')
+        tipo_usuario = request.form.get('tipo_usuario')
+        
+        data = {
+            'nombre': nombre,
+            'apellido': apellido,
+            'correo': correo,
+            'contrasena': contrasena,
+            'rut': rut,
+            'codigo_RFID': codigo_RFID,
+            'tipo_usuario': tipo_usuario
+        }
+        
+        response = requests.post(f"{API_URL}/usuarios", json=data)
+        
+        if response.status_code == 201:
+            flash('Usuario creado exitosamente', 'success')
+            return redirect(url_for('admin.admin_usuarios'))
+        else:
+            try:
+                error_message = response.json().get('message', 'Error al crear el usuario')
+            except ValueError:
+                error_message = 'Error al crear el usuario'
+            flash(error_message, 'danger')
+    
+    return render_template('admin/admin_crear_usuario.html', user=g.user)
 
