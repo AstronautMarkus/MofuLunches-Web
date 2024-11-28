@@ -12,47 +12,47 @@ body {
 }
 
 .btn-primary {
-    background-color: #005f73 !important;
-    border-color: #005f73 !important;
+    background-color: #004d73 !important;
+    border-color: #004d73 !important;
 }
 
 .btn-secondary {
-    background-color: #c47c17 !important;
-    border-color: #c47c17 !important;
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
 }
 
 .btn-success {
-    background-color: #02900a !important;
-    border-color: #02900a !important;
+    background-color: #007f11 !important;
+    border-color: #007f11 !important;
 }
 
 .btn-warning {
-    background-color: #ee9b00 !important;
-    border-color: #ee9b00 !important;
+    background-color: #e9c46a !important;
+    border-color: #e9c46a !important;
 }
 
 .btn-danger {
-    background-color: #9d0208 !important;
-    border-color: #9d0208 !important;
+    background-color: #d00000 !important;
+    border-color: #d00000 !important;
 }
 
-
 .item-primary {
-    color: #005f73 !important;
+    color: #004d73 !important;
 }
 
 .item-secondary {
-    color: #c47c17 !important;
+    color: #6c757d !important;
 }
 
 .item-success {
-    color: #02900a !important;
+    color: #007f11 !important;
 }
 
 .item-warning {
-    color: #ee9b00 !important;
+    color: #e9c46a !important;
 }
 
 .item-danger {
-    color: #9d0208 !important;
+    color: #d00000 !important;
 }
+

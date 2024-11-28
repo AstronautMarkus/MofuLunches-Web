@@ -7,11 +7,14 @@
 {% endblock %}
 
 {% block body %}
-<div class="container mt-5">
+<div class="container mt-5 mb-5" data-aos="fade-up" data-aos-delay="200">
+    
     <div class="text-center mb-4">
         <h1>Crear Usuario</h1>
+        <p class="lead">Por favor, complete el formulario para la creación de un usuario.</p>
     </div>
-    <div class="row justify-content-center">
+
+    <div class="row justify-content-center" >
         <form method="POST" class="form-container">
             <div class="form-group">
                 <label for="nombre">Nombre:</label>
@@ -44,10 +47,22 @@
             </div>
             <div class="form-group">
                 <label for="tipo_usuario">Tipo de Usuario:</label>
-                <input type="text" id="tipo_usuario" name="tipo_usuario" class="form-control" required>
+                <select id="tipo_usuario" name="tipo_usuario" class="form-control" required>
+                    <option value="" disabled selected>Seleccione una categoría</option>
+                    {% for categoria in roles %}
+                        <option value="{{ categoria.valor }}">{{ categoria.nombre }}</option>
+                    {% endfor %}
+                </select>
             </div>
-            <button type="submit" class="btn btn-primary">Crear Usuario</button>
+            
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Crear Usuario</button>
+            </div>
         </form>
+    </div>
+    
+    <div class="text-center mt-3">
+        <a href="{{ url_for('admin.admin_index') }}" class="btn btn-warning">Regresar</a>
     </div>
 </div>
 
@@ -70,7 +85,7 @@
                 </ol>
                 <!-- Placeholder for RFID scanning animation -->
                 <div class="text-center my-3">
-                    <img src="path/to/your-animation.gif" alt="Ejemplo de escaneo RFID" class="img-fluid">
+                    <img src="{{ url_for('static', filename='img/info/scan_rfid.gif') }}" alt="Ejemplo de escaneo RFID" class="img-fluid">
                 </div>
                 <!-- Placeholder for RFID scanning functionality -->
                 <input type="text" id="rfidInput" class="form-control" placeholder="Escaneando...">
