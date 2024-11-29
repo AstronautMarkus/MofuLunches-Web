@@ -59,10 +59,62 @@ def cartas_list():
     
     return render_template('cocineros/cartas/cartas-list.html', user=g.user, cartas=cartas)
 
-@cocineros_bp.route('/cartas-crear')
+@cocineros_bp.route('/cartas-crear', methods=['GET', 'POST'])
 @role_required('cocineros')
 def cartas_crear():
-    return render_template('cocineros/cartas/cartas-crear.html', user=g.user)
+    if request.method == 'POST':
+        
+        fecha = request.form.get('fecha')
+
+        alimentos = []
+
+        for category in ['almuerzo', 'ensalada', 'refresco']:
+            alimentos_ids = request.form.getlist(category + '[]')  
+            print(f"IDs de {category} seleccionados:", alimentos_ids) 
+
+            for alimento_id in alimentos_ids:
+                nombre = request.form.get(f"nombre_{alimento_id}")
+                print(f"Procesando alimento: id={alimento_id}, nombre={nombre}")  
+                if nombre:  
+                    alimentos.append({"id": alimento_id, "nombre": nombre})
+
+
+        if not fecha or not alimentos:
+            flash('Debes completar todos los campos y seleccionar al menos un alimento.', 'danger')
+            return redirect(url_for('cocineros.cartas_crear'))
+        
+        
+        data = {
+            "fecha": fecha,
+            "alimentos": alimentos
+        }
+       
+        response = requests.post(f"{API_URL}/cartas", json=data)
+        
+        if response.status_code == 201:
+            flash('Carta creada exitosamente.', 'success')
+            return redirect(url_for('cocineros.cartas_list'))
+        else:
+            print("Error en el POST:", response.status_code, response.text) 
+            flash('Error al crear la carta.', 'danger')
+
+    
+    response = requests.get(f"{API_URL}/alimentos")
+    if response.status_code == 200:
+        alimentos = response.json()
+    else:
+        flash('Error al obtener los alimentos. Intenta nuevamente.', 'danger')
+        alimentos = []
+    
+    alimentos_categorias = {
+        "almuerzo": [alimento for alimento in alimentos if alimento["tipo"] == "almuerzo"],
+        "ensalada": [alimento for alimento in alimentos if alimento["tipo"] == "ensalada"],
+        "refresco": [alimento for alimento in alimentos if alimento["tipo"] == "refresco"]
+    }
+    
+    return render_template('cocineros/cartas/cartas-crear.html', user=g.user, alimentos_categorias=alimentos_categorias)
+
+
 
 @cocineros_bp.route('/cartas-editar')
 @role_required('cocineros')

@@ -1,11 +1,10 @@
 {% extends "base/base.html" %}
 
-{% block title %}MofuLunches - Crear carta{% endblock %}
+{% block title %}MofuLunches - Crear Carta{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/cocineros/create_card.css') }}">
 {% endblock %}
-
 
 {% block body %}
 <div class="container mt-5">
@@ -14,95 +13,57 @@
         <p class="lead">Selecciona los alimentos y categorías para crear una nueva carta.</p>
     </div>
 
-    <div class="row mb-3">
-        <div class="col text-center">
-            <label for="fecha" class="form-label">Selecciona fecha</label>
-            <input type="date" id="fecha" name="fecha" class="form-control w-auto mx-auto">
-        </div>
-    </div>
 
-    <div id="categories-container" class="row" data-aos="fade-up">
-        <!-- Almuerzo -->
-        <div class="col-md-6 mb-4">
-            <h5>Almuerzo</h5>
-            <div id="almuerzo-list" class="item-list">
-                <div class="d-flex align-items-center mb-2">
-                    <select class="form-select">
-                        <option value="" selected>Seleccionar</option>
-                    </select>
-                    <div class="ms-2">
-                        <button class="btn btn-dark btn-sm add-item">+</button>
-                        <button class="btn btn-danger btn-sm remove-item">-</button>
+    <form method="POST" action="{{ url_for('cocineros.cartas_crear') }}">
+        <div class="row mb-3">
+            <div class="col text-center">
+                <label for="fecha" class="form-label">Selecciona fecha</label>
+                <input type="date" id="fecha" name="fecha" class="form-control w-auto mx-auto" required>
+            </div>
+        </div>
+    
+        <div id="categories-container" class="row" data-aos="fade-up">
+            {% for category, alimentos in alimentos_categorias.items() %}
+            <div class="col-md-6 mb-4">
+                <h5>{{ category.capitalize() }}</h5>
+                <div id="{{ category }}-list" class="item-list">
+                    <div class="d-flex align-items-center mb-2">
+                        <select class="form-select" name="{{ category }}[]" required>
+                            <option value="" selected>Seleccionar</option>
+                            {% for alimento in alimentos %}
+                            <option value="{{ alimento.id }}">{{ alimento.nombre }}</option>
+                            {% endfor %}
+                        </select>
+        
+
+                        {% for alimento in alimentos %}
+                        <input type="hidden" name="nombre_{{ alimento.id }}" value="{{ alimento.nombre }}">
+                        {% endfor %}
+        
+                        <div class="ms-2">
+                            <button class="btn btn-dark btn-sm add-item" type="button">+</button>
+                            <button class="btn btn-danger btn-sm remove-item" type="button">-</button>
+                        </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-
-        <!-- Ensalada -->
-        <div class="col-md-6 mb-4">
-            <h5>Ensalada</h5>
-            <div id="ensalada-list" class="item-list">
-                <div class="d-flex align-items-center mb-2">
-                    <select class="form-select">
-                        <option value="" selected>Seleccionar</option>
-                    </select>
-                    <div class="ms-2">
-                        <button class="btn btn-dark btn-sm add-item">+</button>
-                        <button class="btn btn-danger btn-sm remove-item">-</button>
-                    </div>
-                </div>
-            </div>
+            
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success">Crear Carta</button>
+            <a href="{{ url_for('cocineros.cartas_menu') }}" class="btn btn-danger">Volver</a>
         </div>
-
-        <!-- Bebestible -->
-        <div class="col-md-6 mb-4">
-            <h5>Bebestible</h5>
-            <div id="bebestible-list" class="item-list">
-                <div class="d-flex align-items-center mb-2">
-                    <select class="form-select">
-                        <option value="" selected>Seleccionar</option>
-                    </select>
-                    <div class="ms-2">
-                        <button class="btn btn-dark btn-sm add-item">+</button>
-                        <button class="btn btn-danger btn-sm remove-item">-</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 mb-4">
-            <h5>Postre</h5>
-            <div id="postre-list" class="item-list">
-                <div class="d-flex align-items-center mb-2">
-                    <select class="form-select">
-                        <option value="" selected>Seleccionar</option>
-                    </select>
-                    <div class="ms-2">
-                        <button class="btn btn-dark btn-sm add-item">+</button>
-                        <button class="btn btn-danger btn-sm remove-item">-</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="text-center mt-4">
-        <button class="btn btn-success">Crear Carta</button>
-        <a href="{{ url_for('cocineros.cartas_menu') }}" class="btn btn-danger">Volver</a>
-    </div>
+    </form>
+    
 
 
     <div class="text-center mt-5">
         <a href="{{ url_for('cocineros.ingredientes_list') }}" target="_blank">¿Agregar más ingredientes?</a>
     </div>
-
 </div>
-
-
 {% endblock %}
 
 {% block extra_js %}
-
-<script src="{{ url_for('static', filename='js/cocineros/cartas-crear.js' )}}"></script>
-
+<script src="{{ url_for('static', filename='js/cocineros/cartas-crear.js') }}"></script>
 {% endblock %}

@@ -9,6 +9,7 @@
 {% block body %}
 <div class="container mt-5" data-aos="fade-up" data-aos-delay="100">
 
+    {% if cartas %}
     <div class="text-center mb-4" data-aos="fade-down" data-aos-delay="200">
         <h1 class="display-5">Listar cartas</h1>
         <p class="lead">Selecciona una carta para revisar sus detalles.</p>
@@ -82,19 +83,15 @@
             </form>
         </div>
     </div>
+    {% else %}
+    <div class="text-center mb-4" data-aos="fade-down" data-aos-delay="200">
+        <h1 class="display-5">No se encontraron cartas</h1>
+        <p class="lead">Actualmente no hay cartas disponibles para mostrar.</p>
+        <a href="{{ url_for('cocineros.cartas_crear') }}">¿Crear carta?</p>
+        <a href="{{ url_for('cocineros.cartas_menu') }}" class="btn btn-danger mt-3">Volver al menú</a>
+    </div>
+    {% endif %}
 
 </div>
 {% endblock %}
 
-{% block extra_js %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const stars = document.querySelectorAll('.stars');
-        stars.forEach(star => {
-            const rating = parseFloat(star.style.getPropertyValue('--rating'));
-            const percentage = (rating / 5) * 100;
-            star.querySelector('span:first-child').style.width = `${percentage}%`;
-        });
-    });
-</script>
-{% endblock %}
