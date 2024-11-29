@@ -35,7 +35,7 @@
                     <td>{{ usuario.codigo_RFID|upper }}</td>
                     <td>
                         <a href="{{ url_for('admin.editar_usuario', rut=usuario.rut) }}" class="btn btn-sm btn-primary">Editar</a>
-                        <a href="" class="btn btn-sm btn-danger">Desactivar</a>
+                        <button class="btn btn-sm btn-danger" disabled>Desactivar</button>
                     </td>
                 </tr>
                 {% endfor %}
