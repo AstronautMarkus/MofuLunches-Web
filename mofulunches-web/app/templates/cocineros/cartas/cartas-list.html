@@ -9,7 +9,13 @@
 {% block body %}
 <div class="container mt-5" data-aos="fade-up" data-aos-delay="100">
 
-    {% if cartas %}
+    {% if service_offline %}
+    <div class="text-center mb-4" data-aos="fade-down" data-aos-delay="200">
+        <h1 class="display-5">Servicio fuera de línea</h1>
+        <p class="lead">No se pudo conectar con el servicio de alimentos. Intenta nuevamente más tarde.</p>
+        <a href="{{ url_for('cocineros.cartas_menu') }}" class="btn btn-danger mt-3">Volver al menú</a>
+    </div>
+    {% elif cartas %}
     <div class="text-center mb-4" data-aos="fade-down" data-aos-delay="200">
         <h1 class="display-5">Listar cartas</h1>
         <p class="lead">Selecciona una carta para revisar sus detalles.</p>
@@ -93,8 +99,8 @@
     {% else %}
         <div class="text-center mb-4" data-aos="fade-down" data-aos-delay="200">
             <h1 class="display-5">No se encontraron cartas</h1>
-            <p class="lead">Actualmente no hay cartas disponibles para mostrar en la base de datos.</p>
-            <a href="{{ url_for('cocineros.cartas_crear') }}">¿Crear carta?</a>
+            <p class="lead">Actualmente no hay cartas disponibles para mostrar en la base de datos. <a href="{{ url_for('cocineros.cartas_crear') }}">¿Crear carta?</a></p>
+            
             <a href="{{ url_for('cocineros.cartas_menu') }}" class="btn btn-danger mt-3">Volver al menú</a>
         </div>
     {% endif %}

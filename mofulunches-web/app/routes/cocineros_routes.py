@@ -52,7 +52,13 @@ def cartas_list():
 
     # Fetch all cards (for `hay_cartas` check)
     response_all = requests.get(f"{API_URL}/cartas")
-    hay_cartas = response_all.status_code == 200 and len(response_all.json()) > 0
+    if response_all.status_code != 200:
+        return render_template(
+            'cocineros/cartas/cartas-list.html',
+            user=g.user,
+            service_offline=True
+        )
+    hay_cartas = len(response_all.json()) > 0
 
     # Fetch filtered cards
     response = requests.get(f"{API_URL}/cartas", params=params)
@@ -65,7 +71,8 @@ def cartas_list():
         'cocineros/cartas/cartas-list.html',
         user=g.user,
         cartas=cartas,
-        hay_cartas=hay_cartas
+        hay_cartas=hay_cartas,
+        service_offline=False
     )
 
 
@@ -113,8 +120,11 @@ def cartas_crear():
     if response.status_code == 200:
         alimentos = response.json()
     else:
-        flash('Error al obtener los alimentos. Intenta nuevamente.', 'danger')
-        alimentos = []
+        return render_template(
+            'cocineros/cartas/cartas-crear.html',
+            user=g.user,
+            service_offline=True
+        )
     
     alimentos_categorias = {
         "almuerzo": [alimento for alimento in alimentos if alimento["tipo"] == "almuerzo"],
@@ -122,8 +132,12 @@ def cartas_crear():
         "refresco": [alimento for alimento in alimentos if alimento["tipo"] == "refresco"]
     }
     
-    return render_template('cocineros/cartas/cartas-crear.html', user=g.user, alimentos_categorias=alimentos_categorias)
-
+    return render_template(
+        'cocineros/cartas/cartas-crear.html',
+        user=g.user,
+        alimentos_categorias=alimentos_categorias,
+        service_offline=False
+    )
 
 
 @cocineros_bp.route('/cartas-editar')
