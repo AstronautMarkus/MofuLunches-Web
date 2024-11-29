@@ -84,13 +84,22 @@
         </div>
     </div>
     {% else %}
-    <div class="text-center mb-4" data-aos="fade-down" data-aos-delay="200">
-        <h1 class="display-5">No se encontraron cartas</h1>
-        <p class="lead">Actualmente no hay cartas disponibles para mostrar.</p>
-        <a href="{{ url_for('cocineros.cartas_crear') }}">¿Crear carta?</p>
-        <a href="{{ url_for('cocineros.cartas_menu') }}" class="btn btn-danger mt-3">Volver al menú</a>
-    </div>
+    {% if hay_cartas %}
+        <div class="text-center mb-4" data-aos="fade-down" data-aos-delay="200">
+            <h1 class="display-5">No se encontraron cartas filtradas</h1>
+            <p class="lead">No se encontraron cartas en el rango de fechas seleccionado. Prueba con otro filtro.</p>
+            <a href="{{ url_for('cocineros.cartas_list') }}" class="btn btn-primary mt-3">Limpiar filtro</a>
+        </div>
+    {% else %}
+        <div class="text-center mb-4" data-aos="fade-down" data-aos-delay="200">
+            <h1 class="display-5">No se encontraron cartas</h1>
+            <p class="lead">Actualmente no hay cartas disponibles para mostrar en la base de datos.</p>
+            <a href="{{ url_for('cocineros.cartas_crear') }}">¿Crear carta?</a>
+            <a href="{{ url_for('cocineros.cartas_menu') }}" class="btn btn-danger mt-3">Volver al menú</a>
+        </div>
     {% endif %}
+{% endif %}
+
 
 </div>
 {% endblock %}

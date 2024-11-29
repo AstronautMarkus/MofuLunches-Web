@@ -50,6 +50,10 @@ def cartas_list():
     if hasta:
         params['hasta'] = hasta
 
+    # Fetch all cards (for `hay_cartas` check)
+    response_all = requests.get(f"{API_URL}/cartas")
+    hay_cartas = response_all.status_code == 200 and len(response_all.json()) > 0
+
     # Fetch filtered cards
     response = requests.get(f"{API_URL}/cartas", params=params)
     if response.status_code == 200:
@@ -57,7 +61,13 @@ def cartas_list():
     else:
         cartas = []
     
-    return render_template('cocineros/cartas/cartas-list.html', user=g.user, cartas=cartas)
+    return render_template(
+        'cocineros/cartas/cartas-list.html',
+        user=g.user,
+        cartas=cartas,
+        hay_cartas=hay_cartas
+    )
+
 
 @cocineros_bp.route('/cartas-crear', methods=['GET', 'POST'])
 @role_required('cocineros')
