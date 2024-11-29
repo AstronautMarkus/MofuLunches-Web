@@ -99,4 +99,71 @@ def crear_usuario():
     return render_template('admin/admin_crear_usuario.html', user=g.user, roles=usuario_roles)
 
 
+@admin_bp.route('/editar-usuario/<rut>', methods=['GET', 'POST'])
+@role_required('admin')
+def editar_usuario(rut):
+    usuario_roles = [
+        {"valor": "admin", "nombre": "Administrador"},
+        {"valor": "empleado", "nombre": "Empleado"},
+        {"valor": "cocinero", "nombre": "Cocinero"}
+    ]
+
+    try:
+        # Obtener datos del usuario desde la API
+        response = requests.get(f"{API_URL}/usuarios/{rut}")
+        if response.status_code == 200:
+            usuario = response.json()
+        else:
+            flash('No se pudo obtener la información del usuario.', 'danger')
+            return redirect(url_for('admin.admin_usuarios'))
+    except requests.RequestException as e:
+        flash(f'Error al conectar con la API: {e}', 'danger')
+        return redirect(url_for('admin.admin_usuarios'))
+
+    if request.method == 'POST':
+        # Recibir datos del formulario
+        nombre = request.form.get('nombre')
+        apellido = request.form.get('apellido')
+        correo = request.form.get('correo')
+        codigo_RFID = request.form.get('codigo_RFID')
+        tipo_usuario = request.form.get('tipo_usuario')
+
+        # Verificar si el usuario intenta cambiarse su propio rol
+        if g.user['rut'] == rut and tipo_usuario != "admin":
+            flash('¡No puedes cambiarte el rol de administrador!', 'danger')
+            return render_template(
+                'admin/admin_editar_usuario.html',
+                user=g.user,
+                usuario=usuario,  # Pasamos el diccionario de usuario
+                roles=usuario_roles,
+                show_modal=True
+            )
+
+        # Preparar datos para la actualización
+        data = {
+            'nombre': nombre,
+            'apellido': apellido,
+            'correo': correo,
+            'codigo_RFID': codigo_RFID,
+            'tipo_usuario': tipo_usuario
+        }
+
+        try:
+            response = requests.patch(f"{API_URL}/usuarios/{rut}", json=data)
+            if response.status_code == 200:
+                flash('Usuario actualizado exitosamente.', 'success')
+                return redirect(url_for('admin.admin_usuarios'))
+            else:
+                flash('Error al actualizar el usuario.', 'danger')
+        except requests.RequestException as e:
+            flash(f'Error al conectar con la API: {e}', 'danger')
+
+    return render_template(
+        'admin/admin_editar_usuario.html',
+        user=g.user,
+        usuario=usuario,
+        roles=usuario_roles
+    )
+
+
 
