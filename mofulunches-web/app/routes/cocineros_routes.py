@@ -162,14 +162,15 @@ def ingredientes_menu():
 @cocineros_bp.route('/ingredientes-list')
 @role_required('cocineros')
 def ingredientes_list():
-
     response = requests.get(f"{API_URL}/alimentos")
-    if response.status_code == 200:
-        ingredientes = response.json()
-    else:
-        ingredientes = []
-
-    return render_template('cocineros/ingredientes/ingredientes-list.html', user=g.user, ingredientes=ingredientes)
+    service_offline = response.status_code != 200
+    ingredientes = response.json() if not service_offline else []
+    return render_template(
+        'cocineros/ingredientes/ingredientes-list.html',
+        user=g.user,
+        ingredientes=ingredientes,
+        service_offline=service_offline
+    )
 
 @cocineros_bp.route('/ingredientes-crear', methods=['GET', 'POST'])
 @role_required('cocineros')
@@ -177,81 +178,72 @@ def ingredientes_crear():
     if request.method == 'POST':
         nombre = request.form.get('nombre')
         tipo = request.form.get('tipo')
-        
         data = {
             "nombre": nombre,
             "tipo": tipo
         }
-        
         response = requests.post(f"{API_URL}/alimentos", json=data)
-        
         if response.status_code == 201:
             flash('Ingrediente creado exitosamente', 'success')
             return redirect(url_for('cocineros.ingredientes_menu'))
         else:
             flash('Error al crear el ingrediente', 'danger')
     
+    response = requests.get(f"{API_URL}/alimentos")
+    service_offline = response.status_code != 200
     ingredientes_categorias = [
         {"value": "", "label": "Selecciona un tipo", "selected": True},
         {"value": "almuerzo", "label": "Almuerzo"},
         {"value": "ensalada", "label": "Ensalada"},
         {"value": "refresco", "label": "Refresco"}
     ]
-
     return render_template(
         'cocineros/ingredientes/ingredientes-crear.html',
         user=g.user,
-        ingredientes_categorias=ingredientes_categorias
+        ingredientes_categorias=ingredientes_categorias,
+        service_offline=service_offline
     )
-
 
 @cocineros_bp.route('/ingredientes-editar/<int:ingrediente_id>', methods=['GET', 'POST'])
 @role_required('cocineros')
 def ingredientes_editar(ingrediente_id):
     if request.method == 'POST':
-        # Get user input
         nombre = request.form.get('nombre')
         tipo = request.form.get('tipo')
-        
-        # Create payload
         data = {
             "nombre": nombre,
             "tipo": tipo
         }
-        
-        # Send request to API
         response = requests.put(f"{API_URL}/alimentos/{ingrediente_id}", json=data)
-        
         if response.status_code == 200:
             flash('Ingrediente actualizado exitosamente', 'success')
             return redirect(url_for('cocineros.ingredientes_menu'))
         else:
             flash('Error al actualizar el ingrediente', 'danger')
     
-    # Get ingredient data
     response = requests.get(f"{API_URL}/alimentos/{ingrediente_id}")
-    
-    if response.status_code != 200:
-        flash('Error al obtener los datos del ingrediente', 'danger')
-        return redirect(url_for('cocineros.ingredientes_menu'))
+    service_offline = response.status_code != 200
+    if service_offline:
+        return render_template(
+            'cocineros/ingredientes/ingredientes-editar.html',
+            user=g.user,
+            service_offline=service_offline
+        )
     
     ingrediente = response.json()
-    
-    # Alimento categories
     ingredientes_categorias = [
         {"value": "", "label": "Selecciona un tipo", "selected": not ingrediente.get('tipo')},
         {"value": "almuerzo", "label": "Almuerzo", "selected": ingrediente.get('tipo') == "almuerzo"},
         {"value": "ensalada", "label": "Ensalada", "selected": ingrediente.get('tipo') == "ensalada"},
         {"value": "refresco", "label": "Refresco", "selected": ingrediente.get('tipo') == "refresco"}
     ]
-    
     return render_template(
         'cocineros/ingredientes/ingredientes-editar.html',
         user=g.user,
         ingrediente=ingrediente,
-        ingredientes_categorias=ingredientes_categorias
+        ingredientes_categorias=ingredientes_categorias,
+        service_offline=service_offline
     )
-
 
 @cocineros_bp.route('/ingredientes-eliminar')
 @role_required('cocineros')

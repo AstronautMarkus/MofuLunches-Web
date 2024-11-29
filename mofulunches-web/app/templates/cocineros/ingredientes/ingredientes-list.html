@@ -8,6 +8,16 @@
 
 {% block body %}
 <div class="container mt-5">
+
+    {% if service_offline %}
+    <div class="text-center mb-4" data-aos="fade-down" data-aos-delay="200">
+        <h1 class="display-5">Servicio fuera de línea</h1>
+        <p class="lead">No se pudo conectar con el servicio de alimentos. Intenta nuevamente más tarde.</p>
+        <a href="{{ url_for('cocineros.ingredientes_menu') }}" class="btn btn-danger mt-3">Volver al menú</a>
+    </div>
+    {% else %}
+    {% if ingredientes %}
+
     <div class="text-center mb-4">
         <h1 class="display-5">Listar ingredientes</h1>
         <p class="lead">Selecciona un ingrediente para revisar sus detalles.</p>
@@ -19,7 +29,6 @@
             <h5 class="m-0">Lista de Ingredientes</h5>
         </div>
         <div class="card-body" style="max-height: 500px; overflow-y: auto;">
-            {% if ingredientes %}
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -60,8 +69,7 @@
 
     </div>
 
-
-
+    {% endif %}
 </div>
 {% endblock %}
 
