@@ -36,8 +36,8 @@
                         <td>{{ ingrediente.nombre }}</td>
                         <td>{{ ingrediente.tipo|capitalize }}</td>
                         <td>
-                            <a href="{{ url_for('cocineros.ingredientes_editar') }}" class="btn btn-sm btn-primary">Editar</a>
-                            <button class="btn btn-sm btn-warning">Desactivar</button>
+                            <a href="{{ url_for('cocineros.ingredientes_editar', ingrediente_id=ingrediente.id) }}" class="btn btn-sm btn-primary">Editar</a>
+                            <button class="btn btn-sm btn-warning" disabled>Desactivar</button>
                         </td>
                     </tr>
                     {% endfor %}

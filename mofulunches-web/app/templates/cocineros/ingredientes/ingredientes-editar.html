@@ -17,32 +17,24 @@
         <div class="col-md-8">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <form method="POST" action="">
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label for="nombre" class="form-label">Nombre del Ingrediente</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" required>
-                            </div>
-                            <div class="col-md-4 mb-3 d-flex align-items-end">
-                                <div class="d-grid w-100">
-                                    <button type="submit" class="btn btn-primary btn-block">Editar Ingrediente</button>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="tipo" class="form-label">Tipo de Ingrediente</label>
-                                <select class="form-select" id="tipo" name="tipo" required>
-                                    {% for categoria in ingredientes_categorias %}
-                                        <option value="{{ categoria.value }}" {% if categoria.selected %}selected{% endif %}>
-                                            {{ categoria.label }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
-                            </div>
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre del Ingrediente</label>
+                            <input type="text" id="nombre" name="nombre" class="form-control" value="{{ ingrediente.nombre }}" required>
                         </div>
-                        <div class="d-grid mt-3">
-                            <a href="{{ url_for('cocineros.ingredientes_menu') }}" class="btn btn-danger btn-block">Regresar</a>
+                        <div class="mb-3">
+                            <label for="tipo" class="form-label">Tipo</label>
+                            <select id="tipo" name="tipo" class="form-control" required>
+                                {% for categoria in ingredientes_categorias %}
+                                    <option value="{{ categoria.value }}" {% if categoria.selected %}selected{% endif %}>
+                                        {{ categoria.label }}
+                                    </option>
+                                {% endfor %}
+                            </select>
                         </div>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                     </form>
+                    
                     
                 </div>
             </div>

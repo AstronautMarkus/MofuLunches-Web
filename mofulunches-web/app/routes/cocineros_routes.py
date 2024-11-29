@@ -129,18 +129,53 @@ def ingredientes_crear():
     )
 
 
-@cocineros_bp.route('/ingredientes-editar')
+@cocineros_bp.route('/ingredientes-editar/<int:ingrediente_id>', methods=['GET', 'POST'])
 @role_required('cocineros')
-def ingredientes_editar():
+def ingredientes_editar(ingrediente_id):
+    if request.method == 'POST':
+        # Get user input
+        nombre = request.form.get('nombre')
+        tipo = request.form.get('tipo')
         
+        # Create payload
+        data = {
+            "nombre": nombre,
+            "tipo": tipo
+        }
+        
+        # Send request to API
+        response = requests.put(f"{API_URL}/alimentos/{ingrediente_id}", json=data)
+        
+        if response.status_code == 200:
+            flash('Ingrediente actualizado exitosamente', 'success')
+            return redirect(url_for('cocineros.ingredientes_menu'))
+        else:
+            flash('Error al actualizar el ingrediente', 'danger')
+    
+    # Get ingredient data
+    response = requests.get(f"{API_URL}/alimentos/{ingrediente_id}")
+    
+    if response.status_code != 200:
+        flash('Error al obtener los datos del ingrediente', 'danger')
+        return redirect(url_for('cocineros.ingredientes_menu'))
+    
+    ingrediente = response.json()
+    
+    # Alimento categories
     ingredientes_categorias = [
-        {"value": "", "label": "Selecciona un tipo", "selected": True},
-        {"value": "almuerzo", "label": "Almuerzo"},
-        {"value": "ensalada", "label": "Ensalada"},
-        {"value": "refresco", "label": "Refresco"}
+        {"value": "", "label": "Selecciona un tipo", "selected": not ingrediente.get('tipo')},
+        {"value": "almuerzo", "label": "Almuerzo", "selected": ingrediente.get('tipo') == "almuerzo"},
+        {"value": "ensalada", "label": "Ensalada", "selected": ingrediente.get('tipo') == "ensalada"},
+        {"value": "refresco", "label": "Refresco", "selected": ingrediente.get('tipo') == "refresco"}
     ]
     
-    return render_template('cocineros/ingredientes/ingredientes-editar.html', user=g.user, ingredientes_categorias=ingredientes_categorias)
+    return render_template(
+        'cocineros/ingredientes/ingredientes-editar.html',
+        user=g.user,
+        ingrediente=ingrediente,
+        ingredientes_categorias=ingredientes_categorias
+    )
+
 
 @cocineros_bp.route('/ingredientes-eliminar')
 @role_required('cocineros')
