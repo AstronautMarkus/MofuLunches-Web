@@ -44,13 +44,11 @@ def admin_usuarios():
 @admin_bp.route('/crear-usuario', methods=['GET', 'POST'])
 @role_required('admin')
 def crear_usuario():
-
     usuario_roles = [
         {"valor": "admin", "nombre": "Administrador"},
         {"valor": "empleado", "nombre": "Empleado"},
         {"valor": "cocinero", "nombre": "Cocinero"}
     ]
-
 
     if request.method == 'POST':
         # User data
@@ -61,6 +59,10 @@ def crear_usuario():
         rut = request.form.get('rut')
         codigo_RFID = request.form.get('codigo_RFID')
         tipo_usuario = request.form.get('tipo_usuario')
+
+        # Clean dot and dash from rut
+        if rut:
+            rut = rut.replace('.', '').replace('-', '')
 
         # Form data
         data = {
@@ -94,7 +96,7 @@ def crear_usuario():
             # Error handling API request
             flash(f'Error al conectar con la API: {e}', 'danger')
 
- 
     return render_template('admin/admin_crear_usuario.html', user=g.user, roles=usuario_roles)
+
 
 
