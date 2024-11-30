@@ -80,42 +80,61 @@ def cartas_list():
 @role_required('cocineros')
 def cartas_crear():
     if request.method == 'POST':
-        
         fecha = request.form.get('fecha')
 
         alimentos = []
 
+        # Use a set to check for duplicates
+        alimentos_unicos = set()
+
         for category in ['almuerzo', 'ensalada', 'refresco']:
-            alimentos_ids = request.form.getlist(category + '[]')  
-            print(f"IDs de {category} seleccionados:", alimentos_ids) 
+            alimentos_ids = request.form.getlist(category + '[]')  # Get selected IDs
+            print(f"Selected {category} IDs:", alimentos_ids)
 
             for alimento_id in alimentos_ids:
-                nombre = request.form.get(f"nombre_{alimento_id}")
-                print(f"Procesando alimento: id={alimento_id}, nombre={nombre}")  
-                if nombre:  
-                    alimentos.append({"id": alimento_id, "nombre": nombre})
+                nombre = request.form.get(f"nombre_{alimento_id}")  # Get the name
+                print(f"Processing alimento: id={alimento_id}, nombre={nombre}, tipo={category}")
 
+                if nombre:
+                    # Create a unique identifier for this alimento (id and type)
+                    alimento_key = (alimento_id, category)
 
+                    if alimento_key not in alimentos_unicos:  # If not duplicated
+                        alimentos_unicos.add(alimento_key)  # Add to the set
+                        # Add the alimento to the list
+                        alimentos.append({
+                            "id": alimento_id,
+                            "nombre": nombre,
+                            "tipo": category
+                        })
+                    else:
+                        print(f"Duplicated alimento ignored: id={alimento_id}, tipo={category}")
+
+        # Validate required fields
         if not fecha or not alimentos:
-            flash('Debes completar todos los campos y seleccionar al menos un alimento.', 'danger')
+            flash('You must complete all fields and select at least one alimento.', 'danger')
             return redirect(url_for('cocineros.cartas_crear'))
-        
-        
+
+        # Payload for the API
         data = {
             "fecha": fecha,
             "alimentos": alimentos
         }
-       
+
+        # Send POST request to the API
         response = requests.post(f"{API_URL}/cartas", json=data)
-        
+
         if response.status_code == 201:
-            flash('Carta creada exitosamente.', 'success')
+            api_message = response.json().get('message', 'Carta created successfully.')
+            flash(api_message, 'success')
             return redirect(url_for('cocineros.cartas_list'))
         else:
-            print("Error en el POST:", response.status_code, response.text) 
-            flash('Error al crear la carta.', 'danger')
+            # Extract error message from the API response
+            api_message = response.json().get('message', 'Error creating the carta.')
+            print("Error in POST:", response.status_code, response.text)
+            flash(api_message, 'danger')
 
-    
+    # If it is a GET request
     response = requests.get(f"{API_URL}/alimentos")
     if response.status_code == 200:
         alimentos = response.json()
@@ -125,19 +144,22 @@ def cartas_crear():
             user=g.user,
             service_offline=True
         )
-    
+
+    # Classify alimentos by type
     alimentos_categorias = {
         "almuerzo": [alimento for alimento in alimentos if alimento["tipo"] == "almuerzo"],
         "ensalada": [alimento for alimento in alimentos if alimento["tipo"] == "ensalada"],
         "refresco": [alimento for alimento in alimentos if alimento["tipo"] == "refresco"]
     }
-    
+
     return render_template(
         'cocineros/cartas/cartas-crear.html',
         user=g.user,
         alimentos_categorias=alimentos_categorias,
         service_offline=False
     )
+
+
 
 
 @cocineros_bp.route('/cartas-editar')
