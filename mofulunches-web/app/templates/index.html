@@ -1,0 +1,84 @@
+{% extends "base/base.html" %}
+
+{% block title %}MofuLunches - Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/card-hover.css') }}">
+{% endblock %}
+
+{% block body %}
+
+
+<div class="container mt-5">
+    <div class="text-center mb-4" data-aos-delay="100" data-aos="fade-down">
+        <h1 class="display-5">Bienvenido al Dashboard de Mofu Lunches</h1>
+        <p class="lead">Selecciona una opción para continuar.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="250">
+            <a href="#" class="card-link" data-bs-toggle="modal" data-bs-target="#loginModal" onclick="setModalTitle('admin')">
+                <div class="card mb-4 shadow-sm card-hover">
+                    <img class="card-img-top" src="{{ url_for('static', filename='img/avatars/admin_image.png') }}" alt="Admin Image">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Administrador</h5>
+                        <p class="card-text">Encargados de la creación y modificación de usuarios y asignación de roles.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
+            <a href="#" class="card-link" data-bs-toggle="modal" data-bs-target="#loginModal" onclick="setModalTitle('cocineros')">
+                <div class="card mb-4 shadow-sm card-hover">
+                    <img class="card-img-top" src="{{ url_for('static', filename='img/avatars/cocinero_image.png') }}" alt="Cocinero Image">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Cocineros</h5>
+                        <p class="card-text">Encargados de la creación y modificación de platillos, ingredientes y menús.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>                
+            </div>
+            <div class="modal-body">
+                <div id="flash-messages" class="flash-container mb-3"></div>
+                <form>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">RUT</label>
+                        <input type="text" class="form-control" id="username" placeholder="Ingrese su RUT" oninput="this.value = this.value.replace(/[^0-9kK]/g, '')" minlength="9" maxlength="9" onblur="formatRUT(this)">
+                        <div class="form-text">Ingrese su RUT sin puntos ni guión, el sistema los agregará.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña">
+                    </div>
+                    <input type="hidden" id="role" name="role">
+                    <div class="mb-3 form-check"></div>
+                    <div class="d-flex justify-content-center">
+                        <div id="loading-spinner" class="spinner-border text-primary mt-3" role="status" style="display: none;"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 mt-3">Iniciar Sesión</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{url_for('static', filename='js/login_modal.js')}}"></script>
+{% endblock %}

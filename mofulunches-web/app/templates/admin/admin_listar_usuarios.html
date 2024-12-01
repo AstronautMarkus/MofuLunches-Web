@@ -1,0 +1,63 @@
+{% extends "base/base.html" %}
+
+{% block title %}MofuLunches - Admin{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin_table.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="text-center mb-4" data-aos="fade-up">
+        <h1 class="display-5">Listar usuarios</h1>
+        <p class="lead">Selecciona a un usuario para ver sus detalles.</p>
+    </div>
+
+    <div class="table-responsive" data-aos="fade-up" data-aos-delay="500" style="height: 500px; overflow: auto;">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>RUT</th>
+                    <th>Rol</th>
+                    <th>Correo electrónico</th>
+                    <th>CÓDIGO RFID</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="user-table-body">
+                {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario.nombre|capitalize }} {{ usuario.apellido|capitalize }}</td>
+                    <td>{{ usuario.rut }}</td>
+                    <td>{{ usuario.tipo_usuario|capitalize }}</td>
+                    <td>{{ usuario.correo }}</td>
+                    <td>{{ usuario.codigo_RFID|upper }}</td>
+                    <td>
+                        <a href="{{ url_for('admin.editar_usuario', rut=usuario.rut) }}" class="btn btn-sm btn-primary">Editar</a>
+                        <button class="btn btn-sm btn-danger" disabled>Desactivar</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-end mt-5 mb-5" data-aos="fade-up" data-aos-delay="500">
+        <a href="{{ url_for('admin.crear_usuario')}}" class="btn btn-primary me-3" target="_blank" style="margin-left: 10px;">Agregar usuario</a>
+        <a href="{{ url_for('admin.admin_index')}}" class="btn btn-warning" style="margin-left: 10px;">Volver al dashboard</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/admin/format_rut.js')}}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const rutCells = document.querySelectorAll('#user-table-body td:nth-child(2)');
+        rutCells.forEach(cell => {
+            cell.textContent = formatRUT(cell.textContent);
+        });
+    });
+</script>
+{% endblock %}

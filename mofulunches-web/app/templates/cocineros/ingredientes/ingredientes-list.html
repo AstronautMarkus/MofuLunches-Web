@@ -1,0 +1,78 @@
+{% extends "base/base.html" %}
+
+{% block title %}MofuLunches - Menú de ingredientes{% endblock %}
+
+{% block extra_css %}
+
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+
+    {% if service_offline %}
+    <div class="text-center mb-4" data-aos="fade-down" data-aos-delay="200">
+        <h1 class="display-5">Servicio fuera de línea</h1>
+        <p class="lead">No se pudo conectar con el servicio de alimentos. Intenta nuevamente más tarde.</p>
+        <a href="{{ url_for('cocineros.ingredientes_menu') }}" class="btn btn-danger mt-3">Volver al menú</a>
+    </div>
+    {% else %}
+    {% if ingredientes %}
+
+    <div class="text-center mb-4">
+        <h1 class="display-5">Listar ingredientes</h1>
+        <p class="lead">Selecciona un ingrediente para revisar sus detalles.</p>
+    </div>
+
+
+    <div class="card shadow-sm mb-4" data-aos="fade-right" data-aos-delay="300">
+        <div class="card-header">
+            <h5 class="m-0">Lista de Ingredientes</h5>
+        </div>
+        <div class="card-body" style="max-height: 500px; overflow-y: auto;">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre del ingrediente</th>
+                        <th>Tipo</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ingrediente in ingredientes %}
+                    <tr>
+                        <td>{{ ingrediente.id }}</td>
+                        <td>{{ ingrediente.nombre }}</td>
+                        <td>{{ ingrediente.tipo|capitalize }}</td>
+                        <td>
+                            <a href="{{ url_for('cocineros.ingredientes_editar', ingrediente_id=ingrediente.id) }}" class="btn btn-sm btn-primary">Editar</a>
+                            <button class="btn btn-sm btn-warning" disabled>Desactivar</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="text-center">No hay ingredientes disponibles.</p>
+            {% endif %}
+        </div>
+
+
+        <div class="card-body">
+            <div class="row justify-content-end align-items-center">
+            <div class="col-md-2 text-center" data-aos="fade-left" data-aos-delay="600">
+                <a href="{{ url_for('cocineros.ingredientes_crear') }}" class="btn btn-primary w-100 mb-2">Crear nuevo</a>
+                <a href="{{ url_for('cocineros.ingredientes_menu') }}" class="btn btn-danger w-100">Volver</a>
+            </div>
+            </div>
+        </div>
+
+    </div>
+
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}

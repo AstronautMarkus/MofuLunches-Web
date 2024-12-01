@@ -1,0 +1,62 @@
+{% extends "base/base.html" %}
+
+{% block title %}MofuLunches - Menú de cartas{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/dashboard_cards.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="display-5">Menú de cartas</h1>
+        <p class="lead">Gestionar lista de cartas.</p>
+    </div>
+    <div class="row justify-content-center">
+
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="card dashboard-card shadow text-center">
+                <div class="card-body">
+                    <div class="card-icon item-primary mb-3">
+                        <i class="fa-solid fa-file-lines"></i>
+                    </div>
+                    <h5 class="card-title">Listar cartas</h5>
+                    <p class="card-text">Lista todas las cartas registradas en el sistema.</p>
+                    <a href="{{ url_for('cocineros.cartas_list') }}" class="btn btn-primary btn-custom">Listar</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="card dashboard-card shadow text-center">
+                <div class="card-body">
+                    <div class="card-icon item-secondary mb-3">
+                        <i class="fa-solid fa-file-circle-plus"></i>
+                    </div>
+                    <h5 class="card-title">Crear carta</h5>
+                    <p class="card-text">Crea una nueva carta para el sistema seleccionando <a class="item-primary" href="{{ url_for('cocineros.ingredientes_menu') }}">ingredientes</a>.</p>
+                    <a href="{{ url_for('cocineros.cartas_crear') }}" class="btn btn-secondary btn-custom">Crear</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="card dashboard-card shadow text-center">
+                <div class="card-body">
+                    <div class="card-icon item-danger mb-3">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                    <h5 class="card-title">Volver</h5>
+                    <p class="card-text">Regresar al menú principal.</p>
+                    <a href="{{ url_for('cocineros.cocineros_index') }}" class="btn btn-danger btn-custom">Volver</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}

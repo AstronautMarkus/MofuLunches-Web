@@ -1,0 +1,41 @@
+.card {
+    border-radius: 10px;
+    border: none;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    text-align: center;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+.stars {
+    display: inline-block;
+    font-size: 1.5rem;
+    line-height: 1;
+    position: relative;
+    color: #e4e5e9;
+}
+
+.stars span:first-child {
+    color: #ffc107;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+}

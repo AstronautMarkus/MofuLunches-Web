@@ -1,0 +1,63 @@
+{% extends "base/base.html" %}
+
+{% block title %}MofuLunches - Admin{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/dashboard_cards.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="display-5">Bienvenido al Panel de Administrador, {{ user.nombre }} {{ user.apellido }}!</h1>
+        <p class="lead">Aquí puedes gestionar usuarios, asignar roles y mucho más.</p>
+    </div>
+    <div class="row justify-content-center">
+
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="card dashboard-card shadow text-center">
+                <div class="card-body">
+                    <div class="card-icon item-primary mb-3">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h5 class="card-title">Listar Usuarios</h5>
+                    <p class="card-text">Visualiza todos los usuarios registrados y administra sus datos.</p>
+                    <a class="btn btn-primary btn-custom" href="{{ url_for('admin.admin_usuarios')}}">Ver Usuarios</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="card dashboard-card shadow text-center">
+                <div class="card-body">
+                    <div class="card-icon item-success mb-3">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h5 class="card-title">Crear Usuarios</h5>
+                    <p class="card-text">Añade nuevos usuarios al sistema y asigna sus roles.</p>
+                    <a class="btn btn-success btn-custom" href="{{ url_for('admin.crear_usuario') }}">Crear Usuario</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="card dashboard-card shadow text-center">
+                <div class="card-body">
+                    <div class="card-icon item-danger mb-3">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                    <h5 class="card-title">Salir</h5>
+                    <p class="card-text">Cierra la sesión y vuelve a la página principal.</p>
+                    <form action="{{ url_for('main.logout') }}" method="POST">
+                        <button type="submit" class="btn btn-danger btn-custom">Salir</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}

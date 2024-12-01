@@ -1,0 +1,23 @@
+{% extends "base/base.html" %}
+
+{% block title %}MofuLunches - Error{% endblock %}
+
+{% block extra_css %}
+
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="text-center mb-4" data-aos-delay="100" data-aos="fade-down">
+        <h1 class="display-4 text-danger"><i class="fas fa-exclamation-triangle"></i> Error</h1>
+        <p class="lead display-4">{{ error_message }}</p>
+    </div>
+    <div class="text-center">
+        <a href="/" class="btn btn-lg btn-primary mt-5"><i class="fas fa-home"></i> Volver al Inicio</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}

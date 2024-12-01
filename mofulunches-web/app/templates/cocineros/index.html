@@ -1,0 +1,63 @@
+{% extends "base/base.html" %}
+
+{% block title %}MofuLunches - Admin{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/dashboard_cards.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="display-5">Bienvenido al Panel de Cocineros, {{ user.nombre }} {{ user.apellido }}!</h1>
+        <p class="lead">Aquí puedes gestionar cartas, platillos, ingredientes y mucho más.</p>
+    </div>
+    <div class="row justify-content-center">
+
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="card dashboard-card shadow text-center">
+                <div class="card-body">
+                    <div class="card-icon item-primary mb-3">
+                        <i class="fa-regular fa-file-lines"></i>
+                    </div>
+                    <h5 class="card-title">Menú Cartas</h5>
+                    <p class="card-text">Acceder al menú de administración para cartas.</p>
+                    <a href="{{ url_for('cocineros.cartas_menu') }}" class="btn btn-primary btn-custom">Acceder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="card dashboard-card shadow text-center">
+                <div class="card-body">
+                    <div class="card-icon item-secondary mb-3">
+                        <i class="fa-solid fa-bowl-rice"></i>
+                    </div>
+                    <h5 class="card-title">Menú Ingredientes</h5>
+                    <p class="card-text">Acceder al menú de administración para ingredientes.</p>
+                    <a href="{{ url_for('cocineros.ingredientes_menu') }}" class="btn btn-secondary btn-custom">Acceder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="400">
+            <div class="card dashboard-card shadow text-center">
+                <div class="card-body">
+                    <div class="card-icon item-danger mb-3">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                    <h5 class="card-title">Salir</h5>
+                    <p class="card-text">Cierra la sesión y vuelve a la página principal.</p>
+                    <form action="{{ url_for('main.logout') }}" method="POST">
+                        <button type="submit" class="btn btn-danger btn-custom">Salir</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}

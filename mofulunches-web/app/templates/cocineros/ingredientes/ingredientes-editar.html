@@ -1,0 +1,56 @@
+{% extends "base/base.html" %}
+
+{% block title %}MofuLunches - Crear Ingrediente{% endblock %}
+
+{% block extra_css %}
+
+{% endblock %}
+
+
+{% block body %}
+<div class="container mt-5" data-aos="fade-up">
+    {% if service_offline %}
+    <div class="text-center mb-4" data-aos="fade-down" data-aos-delay="200">
+        <h1 class="display-5">Servicio fuera de línea</h1>
+        <p class="lead">No se pudo conectar con el servicio de alimentos. Intenta nuevamente más tarde.</p>
+        <a href="{{ url_for('cocineros.ingredientes_menu') }}" class="btn btn-danger mt-3">Volver al menú</a>
+    </div>
+    {% else %}
+    <div class="text-center mb-4" data-aos="fade-up" data-aos-delay="100">
+        <h1 class="display-5">Editar Ingrediente</h1>
+        <p class="lead">Modifica atributos de un ingrediente.</p>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre del Ingrediente</label>
+                            <input type="text" id="nombre" name="nombre" class="form-control" value="{{ ingrediente.nombre }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tipo" class="form-label">Tipo</label>
+                            <select id="tipo" name="tipo" class="form-control" required>
+                                {% for categoria in ingredientes_categorias %}
+                                    <option value="{{ categoria.value }}" {% if categoria.selected %}selected{% endif %}>
+                                        {{ categoria.label }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+
+
+
+{% endblock %}

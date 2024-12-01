@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/icon.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=SUSE&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/modal.css') }}">
+    <title>{% block title %}MofuLunches{% endblock %}</title>
+    {% block extra_css %}
+    {% endblock %}
+</head>
+<body>
+
+    {% include 'base/components/header.html' %}
+
+    {% block body %}
+    {% endblock %}
+
+    {% include 'base/components/footer.html' %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="flashModal" tabindex="-1" aria-labelledby="flashModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="flashModalLabel">Mensaje</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    {% for message in get_flashed_messages(with_categories=true) %}
+                        {% if message[0] == 'danger' and 'No puedes cambiarte el rol' in message[1] %}
+                            <p class="alert alert-danger">{{ message[1] }}</p>
+                            <img src="{{ url_for('static', filename='img/info/error_nuh.gif') }}" alt="No puedes cambiarte el rol" class="img-fluid mt-3">
+                        {% else %}
+                            <p class="alert alert-{{ message[0] }}">{{ message[1] }}</p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Mostrar el modal si hay mensajes flash
+        const flashMessages = {{ get_flashed_messages(with_categories=true) | length }};
+        if (flashMessages > 0) {
+            const flashModal = new bootstrap.Modal(document.getElementById('flashModal'));
+            flashModal.show();
+    
+            // Cerrar modal automáticamente después de 5 segundos
+            setTimeout(() => {
+                flashModal.hide();
+            }, 5000);
+        }
+    </script>
+    
+
+    {% block extra_js %}
+    {% endblock %}
+    
+    <script src="{{ url_for('static', filename='js/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        AOS.init();
+        {% if get_flashed_messages(with_categories=true) %}
+            var flashModal = new bootstrap.Modal(document.getElementById('flashModal'));
+            flashModal.show();
+        {% endif %}
+    </script>
+
+
+</body>
+</html>

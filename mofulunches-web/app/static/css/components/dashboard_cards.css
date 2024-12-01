@@ -1,0 +1,14 @@
+.dashboard-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.dashboard-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+.card-icon {
+    font-size: 3rem;
+}
+.btn-custom {
+    border-radius: 25px;
+    padding: 10px 20px;
+}

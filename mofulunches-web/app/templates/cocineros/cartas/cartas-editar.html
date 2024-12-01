@@ -1,0 +1,109 @@
+{% extends "base/base.html" %}
+
+{% block title %}MofuLunches - Editar carta{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cocineros/create_card.css') }}">
+{% endblock %}
+
+
+{% block body %}
+<div class="container mt-5" data-aos="fade-up">
+    <div class="text-center mb-4" data-aos="fade-up" data-aos-delay="100">
+        <h1 class="display-5">Editar Carta</h1>
+        <p class="lead">Modifica los alimentos y categorías de la carta existente.</p>
+    </div>
+
+    <div class="row mb-3" data-aos="fade-up" data-aos-delay="200">
+        <div class="col text-center">
+            <label for="fecha" class="form-label">Selecciona fecha</label>
+            <input type="date" id="fecha" name="fecha" class="form-control w-auto mx-auto">
+        </div>
+    </div>
+
+    <div id="categories-container" class="row">
+        <!-- Almuerzo -->
+        <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+            <h5>Almuerzo</h5>
+            <div id="almuerzo-list" class="item-list">
+                <div class="d-flex align-items-center mb-2">
+                    <select class="form-select">
+                        <option value="" selected>Seleccionar</option>
+                    </select>
+                    <div class="ms-2">
+                        <button class="btn btn-dark btn-sm add-item">+</button>
+                        <button class="btn btn-danger btn-sm remove-item">-</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ensalada -->
+        <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+            <h5>Ensalada</h5>
+            <div id="ensalada-list" class="item-list">
+                <div class="d-flex align-items-center mb-2">
+                    <select class="form-select">
+                        <option value="" selected>Seleccionar</option>
+                    </select>
+                    <div class="ms-2">
+                        <button class="btn btn-dark btn-sm add-item">+</button>
+                        <button class="btn btn-danger btn-sm remove-item">-</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bebestible -->
+        <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="500">
+            <h5>Bebestible</h5>
+            <div id="bebestible-list" class="item-list">
+                <div class="d-flex align-items-center mb-2">
+                    <select class="form-select">
+                        <option value="" selected>Seleccionar</option>
+                    </select>
+                    <div class="ms-2">
+                        <button class="btn btn-dark btn-sm add-item">+</button>
+                        <button class="btn btn-danger btn-sm remove-item">-</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Postre -->
+        <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="600">
+            <h5>Postre</h5>
+            <div id="postre-list" class="item-list">
+                <div class="d-flex align-items-center mb-2">
+                    <select class="form-select">
+                        <option value="" selected>Seleccionar</option>
+                    </select>
+                    <div class="ms-2">
+                        <button class="btn btn-dark btn-sm add-item">+</button>
+                        <button class="btn btn-danger btn-sm remove-item">-</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4" data-aos="fade-up" data-aos-delay="700">
+        <button class="btn btn-success">Guardar Cambios</button>
+        <a href="{{ url_for('cocineros.cartas_list') }}" class="btn btn-danger">Volver</a>
+    </div>
+
+
+    <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="800">
+        <a href="{{ url_for('cocineros.ingredientes_list') }}" target="_blank">¿Agregar más ingredientes?</a>
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script src="{{ url_for('static', filename='js/cocineros/cartas-crear.js' )}}"></script>
+
+{% endblock %}
