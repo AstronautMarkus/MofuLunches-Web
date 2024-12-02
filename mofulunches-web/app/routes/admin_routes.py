@@ -47,7 +47,7 @@ def crear_usuario():
     usuario_roles = [
         {"valor": "admin", "nombre": "Administrador"},
         {"valor": "empleado", "nombre": "Empleado"},
-        {"valor": "cocinero", "nombre": "Cocinero"}
+        {"valor": "cocineros", "nombre": "Cocineros"}
     ]
 
     if request.method == 'POST':
@@ -105,11 +105,11 @@ def editar_usuario(rut):
     usuario_roles = [
         {"valor": "admin", "nombre": "Administrador"},
         {"valor": "empleado", "nombre": "Empleado"},
-        {"valor": "cocinero", "nombre": "Cocinero"}
+        {"valor": "cocineros", "nombre": "Cocineros"}
     ]
 
     try:
-        # Obtener datos del usuario desde la API
+        # Get API Data
         response = requests.get(f"{API_URL}/usuarios/{rut}")
         if response.status_code == 200:
             usuario = response.json()
@@ -121,25 +121,25 @@ def editar_usuario(rut):
         return redirect(url_for('admin.admin_usuarios'))
 
     if request.method == 'POST':
-        # Recibir datos del formulario
+        # Get form data
         nombre = request.form.get('nombre')
         apellido = request.form.get('apellido')
         correo = request.form.get('correo')
         codigo_RFID = request.form.get('codigo_RFID')
         tipo_usuario = request.form.get('tipo_usuario')
 
-        # Verificar si el usuario intenta cambiarse su propio rol
+        # Check if user is trying to change its role to admin
         if g.user['rut'] == rut and tipo_usuario != "admin":
             flash('¡No puedes cambiarte el rol de administrador!', 'danger')
             return render_template(
                 'admin/admin_editar_usuario.html',
                 user=g.user,
-                usuario=usuario,  # Pasamos el diccionario de usuario
+                usuario=usuario,  # user dict
                 roles=usuario_roles,
                 show_modal=True
             )
 
-        # Preparar datos para la actualización
+        # Data for API
         data = {
             'nombre': nombre,
             'apellido': apellido,
