@@ -112,7 +112,7 @@ def cartas_crear():
 
         # Validate required fields
         if not fecha or not alimentos:
-            flash('You must complete all fields and select at least one alimento.', 'danger')
+            flash('Debes completar todos los campos y seleccionar al menos un alimento.', 'danger')
             return redirect(url_for('cocineros.cartas_crear'))
 
         # Payload for the API
@@ -273,3 +273,86 @@ def ingredientes_eliminar():
     return render_template('cocineros/ingredientes/ingredientes-eliminar.html', user=g.user)
 
 # Cocineros ingredientes views end
+
+
+# Cocineros pedidos views start
+
+@cocineros_bp.route('/pedidos-menu')
+@role_required('cocineros')
+def pedidos_menu():
+    return render_template('cocineros/pedidos/pedidos-menu.html', user=g.user)
+
+@cocineros_bp.route('/pedidos-list')
+@role_required('cocineros')
+def pedidos_list():
+    response = requests.get(f"{API_URL}/pedidos")
+    if response.status_code == 200:
+        pedidos = response.json()
+    else:
+        pedidos = []
+        flash('Error al obtener la lista de pedidos.', 'danger')
+    
+    return render_template('cocineros/pedidos/pedidos-list.html', user=g.user, pedidos=pedidos)
+
+@cocineros_bp.route('/pedidos-diarios')
+@role_required('cocineros')
+def pedidos_diarios():
+    response = requests.get(f"{API_URL}/pedidos/diarios")
+    if response.status_code == 200:
+        pedidos = response.json()
+    else:
+        pedidos = []
+        flash('Error al obtener la lista de pedidos diarios.', 'danger')
+    
+    return render_template('cocineros/pedidos/pedidos-list.html', user=g.user, pedidos=pedidos)
+
+@cocineros_bp.route('/pedidos-por-rut/<rut>')
+@role_required('cocineros')
+def pedidos_por_rut(rut):
+    response = requests.get(f"{API_URL}/pedidos/{rut}")
+    if response.status_code == 200:
+        pedidos = response.json()
+    else:
+        pedidos = []
+        flash(f'Error al obtener la lista de pedidos para el RUT {rut}.', 'danger')
+    
+    return render_template('cocineros/pedidos/pedidos-list.html', user=g.user, pedidos=pedidos)
+
+@cocineros_bp.route('/pedidos-diarios-por-rut/<rut>')
+@role_required('cocineros')
+def pedidos_diarios_por_rut(rut):
+    response = requests.get(f"{API_URL}/pedidos/diarios/{rut}")
+    if response.status_code == 200:
+        pedidos = response.json()
+    else:
+        pedidos = []
+        flash(f'Error al obtener el pedido diario para el RUT {rut}.', 'danger')
+    
+    return render_template('cocineros/pedidos/pedidos-list.html', user=g.user, pedidos=pedidos)
+
+@cocineros_bp.route('/pedidos-actualizar/<cod_unico>', methods=['POST'])
+@role_required('cocineros')
+def pedidos_actualizar(cod_unico):
+    nuevo_estado = request.form.get('estado')
+    nueva_hora_retiro = request.form.get('hora_retiro')
+    
+    if not nuevo_estado and not nueva_hora_retiro:
+        flash('Debe proporcionar un nuevo estado o una nueva hora de retiro.', 'danger')
+        return redirect(url_for('cocineros.pedidos_list'))
+
+    data = {}
+    if nuevo_estado:
+        data['estado'] = nuevo_estado
+    if nueva_hora_retiro:
+        data['hora_retiro'] = nueva_hora_retiro
+
+    response = requests.put(f"{API_URL}/pedidos/{cod_unico}", json=data)
+    if response.status_code == 200:
+        flash('Pedido actualizado exitosamente.', 'success')
+    else:
+        error_message = response.json().get('message', 'Error al actualizar el pedido.')
+        flash(error_message, 'danger')
+
+    return redirect(url_for('cocineros.pedidos_list'))
+
+# Cocineros pedidos views end

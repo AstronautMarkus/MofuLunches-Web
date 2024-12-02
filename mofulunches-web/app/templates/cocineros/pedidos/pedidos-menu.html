@@ -1,0 +1,94 @@
+{% extends "base/base.html" %}
+
+{% block title %}MofuLunches - Menú de pedidos{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/dashboard_cards.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="display-5">Menú de pedidos</h1>
+        <p class="lead">Gestionar lista de pedidos.</p>
+    </div>
+    <div class="row justify-content-center">
+
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="card dashboard-card shadow text-center">
+                <div class="card-body">
+                    <div class="card-icon item-primary mb-3">
+                        <i class="fa-solid fa-file-lines"></i>
+                    </div>
+                    <h5 class="card-title">Listar pedidos</h5>
+                    <p class="card-text">Lista todos los pedidos registrados en el sistema.</p>
+                    <a href="{{ url_for('cocineros.pedidos_list') }}" class="btn btn-primary btn-custom">Listar</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="card dashboard-card shadow text-center">
+                <div class="card-body">
+                    <div class="card-icon item-primary mb-3">
+                        <i class="fa-solid fa-calendar-day"></i>
+                    </div>
+                    <h5 class="card-title">Pedidos diarios</h5>
+                    <p class="card-text">Lista todos los pedidos diarios registrados en el sistema.</p>
+                    <a href="{{ url_for('cocineros.pedidos_diarios') }}" class="btn btn-primary btn-custom">Listar</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="card dashboard-card shadow text-center">
+                <div class="card-body">
+                    <div class="card-icon item-primary mb-3">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <h5 class="card-title">Pedidos por RUT</h5>
+                    <p class="card-text">Lista todos los pedidos de un usuario por su RUT.</p>
+                    <form action="{{ url_for('cocineros.pedidos_por_rut', rut='') }}" method="get">
+                        <input type="text" name="rut" placeholder="Ingrese RUT" class="form-control mb-2">
+                        <button type="submit" class="btn btn-primary btn-custom">Buscar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="400">
+            <div class="card dashboard-card shadow text-center">
+                <div class="card-body">
+                    <div class="card-icon item-primary mb-3">
+                        <i class="fa-solid fa-calendar-day"></i>
+                    </div>
+                    <h5 class="card-title">Pedido diario por RUT</h5>
+                    <p class="card-text">Lista el pedido diario de un usuario por su RUT.</p>
+                    <form action="{{ url_for('cocineros.pedidos_diarios_por_rut', rut='') }}" method="get">
+                        <input type="text" name="rut" placeholder="Ingrese RUT" class="form-control mb-2">
+                        <button type="submit" class="btn btn-primary btn-custom">Buscar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="500">
+            <div class="card dashboard-card shadow text-center">
+                <div class="card-body">
+                    <div class="card-icon item-danger mb-3">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                    <h5 class="card-title">Volver</h5>
+                    <p class="card-text">Regresar al menú principal.</p>
+                    <a href="{{ url_for('cocineros.cocineros_index') }}" class="btn btn-danger btn-custom">Volver</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}
