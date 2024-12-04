@@ -2,12 +2,20 @@
 
 {% block body %}
 <div class="container mt-5">
+    {% if service_offline %}
+    <div class="text-center mb-4">
+        <h1 class="display-5" data-aos="fade-up">Servicio fuera de línea</h1>
+        <p class="lead" data-aos="fade-up" data-aos-delay="100">No se pudo conectar con el servicio de pedidos. Intenta nuevamente más tarde.</p>
+        <a href="{{ url_for('cocineros.pedidos_menu') }}" class="btn btn-danger mt-3" data-aos="fade-up" data-aos-delay="200">Volver al menú</a>
+    </div>
+    {% else %}
     <div class="text-center mb-4">
         <h1 class="display-5">Lista de pedidos</h1>
         <p class="lead text-muted">Gestiona todos los pedidos registrados en el sistema.</p>
     </div>
+    {% if pedidos %}
     <div class="row justify-content-center">
-        <div class="col-md-12">
+        <div class="col-md-12" data-aos="fade-right" data-aos-delay="300">
             <div class="card-body" style="max-height: 500px; overflow-y: auto;">
                 <table class="table align-middle">
                     <thead class="table-dark">
@@ -72,9 +80,14 @@
                 </table>
             </div>
         </div>
-        <div class="text-center mb-4">
-            <a href="{{ url_for('cocineros.cartas_menu') }}" class="btn btn-danger mt-3">Volver al menú</a>
-        </div>
     </div>
+    {% else %}
+    <div class="text-center mb-4">
+        <h1 class="display-5" data-aos="fade-up">No se encontraron pedidos</h1>
+        <p class="lead" data-aos="fade-up" data-aos-delay="100">Actualmente no hay pedidos disponibles para mostrar en el sistema.</p>
+        <a href="{{ url_for('cocineros.pedidos_menu') }}" class="btn btn-danger mt-3" data-aos="fade-up" data-aos-delay="200">Volver al menú</a>
+    </div>
+    {% endif %}
+    {% endif %}
 </div>
 {% endblock %}

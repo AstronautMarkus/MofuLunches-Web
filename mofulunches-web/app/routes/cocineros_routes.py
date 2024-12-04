@@ -288,11 +288,13 @@ def pedidos_list():
     response = requests.get(f"{API_URL}/pedidos")
     if response.status_code == 200:
         pedidos = response.json()
+        service_offline = False
     else:
         pedidos = []
+        service_offline = True
         flash('Error al obtener la lista de pedidos.', 'danger')
     
-    return render_template('cocineros/pedidos/pedidos-list.html', user=g.user, pedidos=pedidos)
+    return render_template('cocineros/pedidos/pedidos-list.html', user=g.user, pedidos=pedidos, service_offline=service_offline)
 
 @cocineros_bp.route('/pedidos-diarios')
 @role_required('cocineros')
