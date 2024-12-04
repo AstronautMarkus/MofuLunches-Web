@@ -19,7 +19,7 @@ def index():
     user_role = session.get('role')
     
     if user_name:
-        if user_role == "administrador":
+        if user_role == "admin":
             return redirect(url_for('admin.admin_index'))
         elif user_role == "cocineros":
             return redirect(url_for('cocineros.cocineros_index'))
@@ -56,7 +56,7 @@ def login():
 
             session['user'] = user_data  # Save data with 'role'
             session['user_name'] = user_data['nombre']
-            session['role'] = user_data['role']  # Save role in session
+            session['role'] = "admin" if user_data['role'] == "administrador" else user_data['role']  # Save role in session
             
             print("Login session:", session)  # DEBUG check session data
 
