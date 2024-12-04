@@ -42,6 +42,7 @@
                     required 
                     oninput="formatRUT(this)"
                     data-raw-value=""
+                    maxlength="12"
                 >
             </div>
             
@@ -71,7 +72,7 @@
     </div>
     
     <div class="text-center mt-3">
-        <a href="{{ url_for('admin.admin_index') }}" class="btn btn-warning">Regresar</a>
+        <a href="{{ url_for('admin.admin_index') }}" class="btn btn-danger">Salir</a>
     </div>
 </div>
 

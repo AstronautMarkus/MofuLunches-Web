@@ -52,13 +52,13 @@ def crear_usuario():
 
     if request.method == 'POST':
         # User data
-        nombre = request.form.get('nombre')
-        apellido = request.form.get('apellido')
-        correo = request.form.get('correo')
+        nombre = request.form.get('nombre').capitalize()
+        apellido = request.form.get('apellido').capitalize()
+        correo = request.form.get('correo').lower()
         contrasena = request.form.get('contrasena')
         rut = request.form.get('rut')
         codigo_RFID = request.form.get('codigo_RFID')
-        tipo_usuario = request.form.get('tipo_usuario')
+        tipo_usuario = request.form.get('tipo_usuario').lower()
 
         # Clean dot and dash from rut
         if rut:
@@ -122,11 +122,12 @@ def editar_usuario(rut):
 
     if request.method == 'POST':
         # Get form data
-        nombre = request.form.get('nombre')
-        apellido = request.form.get('apellido')
-        correo = request.form.get('correo')
+        nombre = request.form.get('nombre').capitalize()
+        apellido = request.form.get('apellido').capitalize()
+        correo = request.form.get('correo').lower()
         codigo_RFID = request.form.get('codigo_RFID')
-        tipo_usuario = request.form.get('tipo_usuario')
+        tipo_usuario = request.form.get('tipo_usuario').lower()
+
 
         # Check if user is trying to change its role to admin
         if g.user['rut'] == rut and tipo_usuario != "admin":
@@ -145,11 +146,13 @@ def editar_usuario(rut):
             'apellido': apellido,
             'correo': correo,
             'codigo_RFID': codigo_RFID,
-            'tipo_usuario': tipo_usuario
+            'tipo_usuario': tipo_usuario,
         }
 
+        print("Data being sent to API:", data)  # Add this line to print the data
+
         try:
-            response = requests.patch(f"{API_URL}/usuarios/{rut}", json=data)
+            response = requests.patch(f"{API_URL}/usuarios/{rut}", json=data)  # Change PUT to PATCH
             if response.status_code == 200:
                 flash('Usuario actualizado exitosamente.', 'success')
                 return redirect(url_for('admin.admin_usuarios'))
@@ -164,6 +167,5 @@ def editar_usuario(rut):
         usuario=usuario,
         roles=usuario_roles
     )
-
 
 
