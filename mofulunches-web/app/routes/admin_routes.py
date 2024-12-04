@@ -34,12 +34,19 @@ def admin_index():
 @admin_bp.route('/usuarios-list')
 @role_required('admin')
 def admin_usuarios():
-    response = requests.get(f"{API_URL}/usuarios")
-    if response.status_code == 200:
-        usuarios = response.json()
-    else:
+    try:
+        response = requests.get(f"{API_URL}/usuarios")
+        if response.status_code == 200:
+            usuarios = response.json()
+            service_offline = False
+        else:
+            usuarios = []
+            service_offline = True
+    except requests.RequestException:
         usuarios = []
-    return render_template('admin/admin_listar_usuarios.html', user=g.user, usuarios=usuarios)
+        service_offline = True
+
+    return render_template('admin/admin_listar_usuarios.html', user=g.user, usuarios=usuarios, service_offline=service_offline)
 
 @admin_bp.route('/crear-usuario', methods=['GET', 'POST'])
 @role_required('admin')
@@ -50,7 +57,17 @@ def crear_usuario():
         {"valor": "cocineros", "nombre": "Cocineros"}
     ]
 
-    if request.method == 'POST':
+    service_offline = False
+
+    # Ping the user list API to check if the service is online
+    try:
+        response = requests.get(f"{API_URL}/usuarios")
+        if response.status_code != 200:
+            service_offline = True
+    except requests.RequestException:
+        service_offline = True
+
+    if request.method == 'POST' and not service_offline:
         # User data
         nombre = request.form.get('nombre').capitalize()
         apellido = request.form.get('apellido').capitalize()
@@ -95,8 +112,9 @@ def crear_usuario():
         except requests.RequestException as e:
             # Error handling API request
             flash(f'Error al conectar con la API: {e}', 'danger')
+            service_offline = True
 
-    return render_template('admin/admin_crear_usuario.html', user=g.user, roles=usuario_roles)
+    return render_template('admin/admin_crear_usuario.html', user=g.user, roles=usuario_roles, service_offline=service_offline)
 
 
 @admin_bp.route('/editar-usuario/<rut>', methods=['GET', 'POST'])
@@ -107,6 +125,8 @@ def editar_usuario(rut):
         {"valor": "empleado", "nombre": "Empleado"},
         {"valor": "cocineros", "nombre": "Cocineros"}
     ]
+
+    service_offline = False
 
     try:
         # Get API Data
@@ -160,12 +180,14 @@ def editar_usuario(rut):
                 flash('Error al actualizar el usuario.', 'danger')
         except requests.RequestException as e:
             flash(f'Error al conectar con la API: {e}', 'danger')
+            service_offline = True
 
     return render_template(
         'admin/admin_editar_usuario.html',
         user=g.user,
         usuario=usuario,
-        roles=usuario_roles
+        roles=usuario_roles,
+        service_offline=service_offline
     )
 
 

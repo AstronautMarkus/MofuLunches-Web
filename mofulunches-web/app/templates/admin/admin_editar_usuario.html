@@ -8,7 +8,13 @@
 
 {% block body %}
 <div class="container mt-5 mb-5" data-aos="fade-up" data-aos-delay="200">
-    
+    {% if service_offline %}
+    <div class="text-center mb-4" data-aos="fade-down">
+        <h1 class="display-5">Servicio fuera de línea</h1>
+        <p class="lead">No se pudo conectar con el servicio de usuarios. Intenta nuevamente más tarde.</p>
+        <a href="{{ url_for('admin.admin_usuarios') }}" class="btn btn-danger mt-3">Volver al menú</a>
+    </div>
+    {% else %}
     <div class="text-center mb-4">
         <h1>Editar Usuario</h1>
         <p class="lead">Por favor, complete el formulario para modificar el usuario.</p>
@@ -106,6 +112,7 @@
     <div class="text-center mt-3">
         <a href="{{ url_for('admin.admin_usuarios') }}" class="btn btn-danger">Salir</a>
     </div>
+    {% endif %}
 </div>
 
 <!-- RFID Modal -->
