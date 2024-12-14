@@ -94,18 +94,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Por favor, siga las siguientes instrucciones para escanear su etiqueta RFID:</p>
+                <p>Por favor, siga las siguientes instrucciones para obtener el código de su etiqueta RFID:</p>
                 <ol>
-                    <li>Asegúrese de que el lector RFID está conectado correctamente.</li>
-                    <li>Coloque la etiqueta RFID cerca del lector.</li>
-                    <li>Espere a que se complete el escaneo (ver animación de ejemplo).</li>
+                    <li>Abrir el software de escaneo RFID en su computadora.</li>
+                    <li>Escanear la etiqueta RFID utilizando el lector conectado.</li>
+                    <li>Copiar el código generado por el software de escaneo.</li>
+                    <li>Pegar el código en el campo de texto a continuación.</li>
                 </ol>
                 <!-- Placeholder for RFID scanning animation -->
                 <div class="text-center my-3">
                     <img src="{{ url_for('static', filename='img/info/scan_rfid.gif') }}" alt="Ejemplo de escaneo RFID" class="img-fluid">
                 </div>
                 <!-- Placeholder for RFID scanning functionality -->
-                <input type="text" id="rfidInput" class="form-control" placeholder="Escaneando...">
+                <input type="text" id="rfidInput" class="form-control" placeholder="Pegue el código aquí...">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
