@@ -42,7 +42,7 @@
                     <td>{{ usuario.codigo_RFID|upper }}</td>
                     <td>
                         <a href="{{ url_for('admin.editar_usuario', rut=usuario.rut) }}" class="btn btn-sm btn-primary">Editar</a>
-                        <button class="btn btn-sm btn-danger" disabled>Desactivar</button>
+                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-rut="{{ usuario.rut }}">Eliminar</button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -56,6 +56,27 @@
     </div>
     {% endif %}
 </div>
+
+<!-- Delete Warning Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Advertencia</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar este usuario? Esta acción es irreversible.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form id="deleteForm" method="POST" action="">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}
@@ -65,6 +86,14 @@
         const rutCells = document.querySelectorAll('#user-table-body td:nth-child(2)');
         rutCells.forEach(cell => {
             cell.textContent = formatRUT(cell.textContent);
+        });
+
+        const deleteModal = document.getElementById('deleteModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const rut = button.getAttribute('data-rut');
+            const form = document.getElementById('deleteForm');
+            form.action = "{{ url_for('admin.eliminar_usuario', rut='') }}/" + rut;
         });
     });
 </script>

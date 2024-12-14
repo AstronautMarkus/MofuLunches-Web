@@ -190,4 +190,18 @@ def editar_usuario(rut):
         service_offline=service_offline
     )
 
+@admin_bp.route('/eliminar-usuario/<rut>', methods=['POST'])
+@role_required('admin')
+def eliminar_usuario(rut):
+    try:
+        response = requests.delete(f"{API_URL}/usuarios/{rut}")
+        if response.status_code == 200:
+            flash('Usuario eliminado exitosamente.', 'success')
+        else:
+            flash('Error al eliminar el usuario.', 'danger')
+    except requests.RequestException as e:
+        flash(f'Error al conectar con la API: {e}', 'danger')
+    
+    return redirect(url_for('admin.admin_usuarios'))
+
 
