@@ -88,9 +88,11 @@ def crear_usuario():
             'correo': correo,
             'contrasena': contrasena,
             'rut': rut,
-            'codigo_RFID': codigo_RFID,
             'tipo_usuario': tipo_usuario
         }
+
+        if codigo_RFID:
+            data['codigo_RFID'] = codigo_RFID
 
         try:
             response = requests.post(f"{API_URL}/usuarios", json=data)
@@ -165,12 +167,15 @@ def editar_usuario(rut):
             'nombre': nombre,
             'apellido': apellido,
             'correo': correo,
-            'codigo_RFID': codigo_RFID,
             'tipo_usuario': tipo_usuario,
         }
 
-        print("Data being sent to API:", data)  # Add this line to print the data
+        if codigo_RFID:
+            data['codigo_RFID'] = codigo_RFID
+        else:
+            data['codigo_RFID'] = "NO_ASIGNADO"
 
+        
         try:
             response = requests.patch(f"{API_URL}/usuarios/{rut}", json=data)  # Change PUT to PATCH
             if response.status_code == 200:

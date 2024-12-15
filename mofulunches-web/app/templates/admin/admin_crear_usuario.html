@@ -21,7 +21,7 @@
     </div>
 
     <div class="row justify-content-center" >
-        <form method="POST" class="form-container">
+        <form method="POST" class="form-container" id="crearUsuarioForm">
             <div class="form-group">
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre" class="form-control" required>
@@ -119,12 +119,6 @@
 
 {% block extra_js %}
 <script>
-document.getElementById('saveRfidButton').addEventListener('click', function() {
-    var rfidValue = document.getElementById('rfidInput').value;
-    document.getElementById('codigo_RFID').value = rfidValue;
-    $('#rfidModal').modal('hide');
-});
-
 function formatRUT(input) {
     let value = input.value.replace(/[^\dkK]/g, ''); // Delete any character that is not a digit or 'k'/'K'
     input.dataset.rawValue = value; //Save clean value
@@ -156,6 +150,5 @@ document.querySelector('form').addEventListener('submit', function() {
         rutInput.value = rutInput.dataset.rawValue; //Replace formatted value with raw value
     }
 });
-
 </script>
 {% endblock %}
