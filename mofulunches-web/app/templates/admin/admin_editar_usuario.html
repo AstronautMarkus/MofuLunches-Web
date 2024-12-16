@@ -136,7 +136,7 @@
                     <img src="{{ url_for('static', filename='img/info/scan_rfid.gif') }}" alt="Ejemplo de escaneo RFID" class="img-fluid">
                 </div>
                 <!-- Placeholder for RFID scanning functionality -->
-                <input type="text" id="rfidInput" class="form-control" placeholder="Pegue el código aquí...">
+                <input type="text" id="rfidInput" class="form-control" placeholder="Pegue el código aquí..." oninput="this.value = this.value.replace(/[^0-9]/g, '');">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
