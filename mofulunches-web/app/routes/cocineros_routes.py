@@ -304,7 +304,25 @@ def pedidos_diarios():
         pedidos = []
         flash('Error al obtener la lista de pedidos diarios.', 'danger')
     
-    return render_template('cocineros/pedidos/pedidos-list.html', user=g.user, pedidos=pedidos)
+    return render_template('cocineros/pedidos/pedidos-diarios.html', user=g.user, pedidos=pedidos)
+
+@cocineros_bp.route('/pedidos-filtrar', methods=['GET'])
+@role_required('cocineros')
+def pedidos_filtrar():
+    rut = request.args.get('rut')
+    if not rut:
+        return redirect(url_for('cocineros.pedidos_list'))
+    
+    return redirect(url_for('cocineros.pedidos_por_rut', rut=rut))
+
+@cocineros_bp.route('/pedidos-diarios-filtrar', methods=['GET'])
+@role_required('cocineros')
+def pedidos_diarios_filtrar():
+    rut = request.args.get('rut')
+    if not rut:
+        return redirect(url_for('cocineros.pedidos_diarios'))
+    
+    return redirect(url_for('cocineros.pedidos_diarios_por_rut', rut=rut))
 
 @cocineros_bp.route('/pedidos-por-rut/<rut>')
 @role_required('cocineros')
@@ -316,7 +334,7 @@ def pedidos_por_rut(rut):
         pedidos = []
         flash(f'Error al obtener la lista de pedidos para el RUT {rut}.', 'danger')
     
-    return render_template('cocineros/pedidos/pedidos-list.html', user=g.user, pedidos=pedidos)
+    return render_template('cocineros/pedidos/pedidos-rut.html', user=g.user, pedidos=pedidos)
 
 @cocineros_bp.route('/pedidos-diarios-por-rut/<rut>')
 @role_required('cocineros')
@@ -328,7 +346,7 @@ def pedidos_diarios_por_rut(rut):
         pedidos = []
         flash(f'Error al obtener el pedido diario para el RUT {rut}.', 'danger')
     
-    return render_template('cocineros/pedidos/pedidos-list.html', user=g.user, pedidos=pedidos)
+    return render_template('cocineros/pedidos/pedidos-diarios-rut.html', user=g.user, pedidos=pedidos)
 
 @cocineros_bp.route('/pedidos-actualizar/<cod_unico>', methods=['POST'])
 @role_required('cocineros')

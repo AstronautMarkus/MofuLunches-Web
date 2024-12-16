@@ -3,12 +3,12 @@
 {% block body %}
 <div class="container mt-5">
     <div class="text-center mb-4">
-        <h1 class="display-5">Lista de pedidos</h1>
-        <p class="lead text-muted">Gestiona todos los pedidos registrados en el sistema.</p>
+        <h1 class="display-5">Lista de pedidos diarios</h1>
+        <p class="lead text-muted">Gestiona todos los pedidos diarios registrados en el sistema.</p>
     </div>
     <div class="row justify-content-center mb-4">
         <div class="col-md-6">
-            <form method="get" action="{{ url_for('cocineros.pedidos_filtrar') }}">
+            <form method="get" action="{{ url_for('cocineros.pedidos_diarios_filtrar') }}">
                 <div class="input-group">
                     <input type="text" name="rut" class="form-control" placeholder="Filtrar por RUT" value="{{ request.args.get('rut', '') }}">
                     <button class="btn btn-outline-secondary" type="submit">Filtrar</button>
@@ -85,7 +85,7 @@
             </div>
             {% else %}
             <div class="alert alert-warning text-center" role="alert">
-                No se encontraron pedidos.
+                No se encontraron pedidos diarios.
             </div>
             {% endif %}
         </div>

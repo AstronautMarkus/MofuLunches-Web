@@ -3,8 +3,8 @@
 {% block body %}
 <div class="container mt-5">
     <div class="text-center mb-4">
-        <h1 class="display-5">Lista de pedidos</h1>
-        <p class="lead text-muted">Gestiona todos los pedidos registrados en el sistema.</p>
+        <h1 class="display-5">Lista de pedidos por RUT</h1>
+        <p class="lead text-muted">Gestiona todos los pedidos registrados en el sistema filtrados por RUT.</p>
     </div>
     <div class="row justify-content-center mb-4">
         <div class="col-md-6">
@@ -90,7 +90,7 @@
             {% endif %}
         </div>
         <div class="text-center mb-4">
-            <a href="{{ url_for('cocineros.pedidos_menu') }}" class="btn btn-danger mt-3">Volver al menú</a>
+            <a href="{{ url_for('cocineros.pedidos_list') }}" class="btn btn-danger mt-3">Volver al menú</a>
         </div>
     </div>
 </div>
