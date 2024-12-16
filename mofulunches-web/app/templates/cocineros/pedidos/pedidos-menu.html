@@ -40,39 +40,7 @@
             </div>
         </div>
 
-        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
-            <div class="card dashboard-card shadow text-center">
-                <div class="card-body">
-                    <div class="card-icon item-primary mb-3">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
-                    <h5 class="card-title">Pedidos por RUT</h5>
-                    <p class="card-text">Lista todos los pedidos de un usuario por su RUT.</p>
-                    <form action="{{ url_for('cocineros.pedidos_por_rut', rut='') }}" method="get">
-                        <input type="text" name="rut" placeholder="Ingrese RUT" class="form-control mb-2">
-                        <button type="submit" class="btn btn-primary btn-custom">Buscar</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
         <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="400">
-            <div class="card dashboard-card shadow text-center">
-                <div class="card-body">
-                    <div class="card-icon item-primary mb-3">
-                        <i class="fa-solid fa-calendar-day"></i>
-                    </div>
-                    <h5 class="card-title">Pedido diario por RUT</h5>
-                    <p class="card-text">Lista el pedido diario de un usuario por su RUT.</p>
-                    <form action="{{ url_for('cocineros.pedidos_diarios_por_rut', rut='') }}" method="get">
-                        <input type="text" name="rut" placeholder="Ingrese RUT" class="form-control mb-2">
-                        <button type="submit" class="btn btn-primary btn-custom">Buscar</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="500">
             <div class="card dashboard-card shadow text-center">
                 <div class="card-body">
                     <div class="card-icon item-danger mb-3">
