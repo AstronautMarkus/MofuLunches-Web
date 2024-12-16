@@ -33,15 +33,16 @@
                                 <span class="badge 
                                     {% if pedido.estado == 'preparando' %}bg-warning
                                     {% elif pedido.estado == 'listo_para_retiro' %}bg-success
+                                    {% elif pedido.estado == 'retirado' %}bg-primary
                                     {% else %}bg-secondary{% endif %}">
                                     {{ pedido.estado | capitalize }}
                                 </span>
                             </td>
                             <td>{{ pedido.fecha_pedido }}</td>
                             <td>{{ pedido.hora_creacion }}</td>
-                            <td>{{ pedido.hora_modificacion }}</td>
+                            <td>{{ pedido.hora_modificacion if pedido.hora_modificacion else 'No modificado' }}</td>
                             <td>{{ pedido.hora_retiro }}</td>
-                            <td>{{ pedido.rut }}</td>
+                            <td>{{ pedido.rut[:2] }}.{{ pedido.rut[2:5] }}.{{ pedido.rut[5:8] }}-{{ pedido.rut[8:] }}</td>
                             <td>
                                 <ul class="list-unstyled mb-0">
                                     {% for alimento in pedido.alimentos %}
