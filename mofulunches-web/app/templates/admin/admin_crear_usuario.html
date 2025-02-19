@@ -8,14 +8,20 @@
 
 {% block body %}
 <div class="container mt-5 mb-5" data-aos="fade-up" data-aos-delay="200">
-    
+    {% if service_offline %}
+    <div class="text-center mb-4" data-aos="fade-down">
+        <h1 class="display-5">Servicio fuera de línea</h1>
+        <p class="lead">No se pudo conectar con el servicio de usuarios. Intenta nuevamente más tarde.</p>
+        <a href="{{ url_for('admin.admin_index') }}" class="btn btn-danger mt-3">Volver al menú</a>
+    </div>
+    {% else %}
     <div class="text-center mb-4">
         <h1>Crear Usuario</h1>
         <p class="lead">Por favor, complete el formulario para la creación de un usuario.</p>
     </div>
 
     <div class="row justify-content-center" >
-        <form method="POST" class="form-container">
+        <form method="POST" class="form-container" id="crearUsuarioForm">
             <div class="form-group">
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre" class="form-control" required>
@@ -42,6 +48,7 @@
                     required 
                     oninput="formatRUT(this)"
                     data-raw-value=""
+                    maxlength="12"
                 >
             </div>
             
@@ -71,8 +78,9 @@
     </div>
     
     <div class="text-center mt-3">
-        <a href="{{ url_for('admin.admin_index') }}" class="btn btn-warning">Regresar</a>
+        <a href="{{ url_for('admin.admin_index') }}" class="btn btn-danger">Salir</a>
     </div>
+    {% endif %}
 </div>
 
 <!-- RFID Modal -->
@@ -86,18 +94,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Por favor, siga las siguientes instrucciones para escanear su etiqueta RFID:</p>
+                <p>Por favor, siga las siguientes instrucciones para obtener el código de su etiqueta RFID:</p>
                 <ol>
-                    <li>Asegúrese de que el lector RFID está conectado correctamente.</li>
-                    <li>Coloque la etiqueta RFID cerca del lector.</li>
-                    <li>Espere a que se complete el escaneo (ver animación de ejemplo).</li>
+                    <li>Abrir el software de escaneo RFID en su computadora.</li>
+                    <li>Escanear la etiqueta RFID utilizando el lector conectado.</li>
+                    <li>Copiar el código generado por el software de escaneo.</li>
+                    <li>Pegar el código en el campo de texto a continuación.</li>
                 </ol>
                 <!-- Placeholder for RFID scanning animation -->
                 <div class="text-center my-3">
                     <img src="{{ url_for('static', filename='img/info/scan_rfid.gif') }}" alt="Ejemplo de escaneo RFID" class="img-fluid">
                 </div>
                 <!-- Placeholder for RFID scanning functionality -->
-                <input type="text" id="rfidInput" class="form-control" placeholder="Escaneando...">
+                <input type="text" id="rfidInput" class="form-control" placeholder="Pegue el código aquí..." oninput="this.value = this.value.replace(/[^0-9]/g, '');">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -110,12 +119,6 @@
 
 {% block extra_js %}
 <script>
-document.getElementById('saveRfidButton').addEventListener('click', function() {
-    var rfidValue = document.getElementById('rfidInput').value;
-    document.getElementById('codigo_RFID').value = rfidValue;
-    $('#rfidModal').modal('hide');
-});
-
 function formatRUT(input) {
     let value = input.value.replace(/[^\dkK]/g, ''); // Delete any character that is not a digit or 'k'/'K'
     input.dataset.rawValue = value; //Save clean value
@@ -148,5 +151,12 @@ document.querySelector('form').addEventListener('submit', function() {
     }
 });
 
+document.getElementById('saveRfidButton').addEventListener('click', function() {
+    let rfidInput = document.getElementById('rfidInput');
+    let codigoRFID = document.getElementById('codigo_RFID');
+    if (rfidInput && codigoRFID) {
+        codigoRFID.value = rfidInput.value; // Set the RFID input value
+    }
+});
 </script>
 {% endblock %}

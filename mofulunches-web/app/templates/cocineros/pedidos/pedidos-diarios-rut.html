@@ -1,0 +1,97 @@
+{% extends "cocineros/pedidos/pedidos-menu.html" %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="display-5">Lista de pedidos diarios por RUT</h1>
+        <p class="lead text-muted">Gestiona todos los pedidos diarios registrados en el sistema filtrados por RUT.</p>
+    </div>
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-6">
+            <form method="get" action="{{ url_for('cocineros.pedidos_diarios_filtrar') }}">
+                <div class="input-group">
+                    <input type="text" name="rut" class="form-control" placeholder="Filtrar por RUT" value="{{ request.args.get('rut', '') }}">
+                    <button class="btn btn-outline-secondary" type="submit">Filtrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            {% if pedidos %}
+            <div class="card-body" style="max-height: 500px; overflow-y: auto;">
+                <table class="table align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Código Diario</th>
+                            <th scope="col">Código Único</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Fecha Pedido</th>
+                            <th scope="col">Hora Creación</th>
+                            <th scope="col">Hora Modificación</th>
+                            <th scope="col">Hora Retiro</th>
+                            <th scope="col">RUT</th>
+                            <th scope="col">Alimentos</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pedido in pedidos %}
+                        <tr>
+                            <td>{{ pedido.cod_diario }}</td>
+                            <td>{{ pedido.cod_unico }}</td>
+                            <td>
+                                <span class="badge 
+                                    {% if pedido.estado == 'preparando' %}bg-warning
+                                    {% elif pedido.estado == 'listo_para_retiro' %}bg-success
+                                    {% elif pedido.estado == 'retirado' %}bg-primary
+                                    {% else %}bg-secondary{% endif %}">
+                                    {{ pedido.estado | capitalize }}
+                                </span>
+                            </td>
+                            <td>{{ pedido.fecha_pedido }}</td>
+                            <td>{{ pedido.hora_creacion }}</td>
+                            <td>{{ pedido.hora_modificacion if pedido.hora_modificacion else 'No modificado' }}</td>
+                            <td>{{ pedido.hora_retiro }}</td>
+                            <td>{{ pedido.rut[:2] }}.{{ pedido.rut[2:5] }}.{{ pedido.rut[5:8] }}-{{ pedido.rut[8:] }}</td>
+                            <td>
+                                <ul class="list-unstyled mb-0">
+                                    {% for alimento in pedido.alimentos %}
+                                    <li>{{ alimento.nombre }} <small class="text-muted">({{ alimento.tipo }})</small></li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>
+                                <form action="{{ url_for('cocineros.pedidos_actualizar', cod_unico=pedido.cod_unico) }}" method="post">
+                                    <div class="mb-2">
+                                        <select name="estado" class="form-select form-select-sm">
+                                            <option value="preparando" {% if pedido.estado == 'preparando' %}selected{% endif %}>Preparando</option>
+                                            <option value="listo_para_retiro" {% if pedido.estado == 'listo_para_retiro' %}selected{% endif %}>Listo para retiro</option>
+                                            <option value="retirado" {% if pedido.estado == 'retirado' %}selected{% endif %}>Retirado</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-2">
+                                        <input type="time" name="hora_retiro" value="{{ pedido.hora_retiro }}" class="form-control form-control-sm">
+                                    </div>
+                                    <button type="submit" class="btn btn-sm btn-primary">
+                                        <i class="bi bi-save"></i> Actualizar
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-warning text-center" role="alert">
+                No se encontraron pedidos diarios.
+            </div>
+            {% endif %}
+        </div>
+        <div class="text-center mb-4">
+            <a href="{{ url_for('cocineros.pedidos_diarios') }}" class="btn btn-danger mt-3">Volver al menú</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

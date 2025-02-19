@@ -34,12 +34,19 @@ def admin_index():
 @admin_bp.route('/usuarios-list')
 @role_required('admin')
 def admin_usuarios():
-    response = requests.get(f"{API_URL}/usuarios")
-    if response.status_code == 200:
-        usuarios = response.json()
-    else:
+    try:
+        response = requests.get(f"{API_URL}/usuarios")
+        if response.status_code == 200:
+            usuarios = response.json()
+            service_offline = False
+        else:
+            usuarios = []
+            service_offline = True
+    except requests.RequestException:
         usuarios = []
-    return render_template('admin/admin_listar_usuarios.html', user=g.user, usuarios=usuarios)
+        service_offline = True
+
+    return render_template('admin/admin_listar_usuarios.html', user=g.user, usuarios=usuarios, service_offline=service_offline)
 
 @admin_bp.route('/crear-usuario', methods=['GET', 'POST'])
 @role_required('admin')
@@ -47,18 +54,28 @@ def crear_usuario():
     usuario_roles = [
         {"valor": "admin", "nombre": "Administrador"},
         {"valor": "empleado", "nombre": "Empleado"},
-        {"valor": "cocinero", "nombre": "Cocinero"}
+        {"valor": "cocineros", "nombre": "Cocineros"}
     ]
 
-    if request.method == 'POST':
+    service_offline = False
+
+    # Ping the user list API to check if the service is online
+    try:
+        response = requests.get(f"{API_URL}/usuarios")
+        if response.status_code != 200:
+            service_offline = True
+    except requests.RequestException:
+        service_offline = True
+
+    if request.method == 'POST' and not service_offline:
         # User data
-        nombre = request.form.get('nombre')
-        apellido = request.form.get('apellido')
-        correo = request.form.get('correo')
+        nombre = request.form.get('nombre').capitalize()
+        apellido = request.form.get('apellido').capitalize()
+        correo = request.form.get('correo').lower()
         contrasena = request.form.get('contrasena')
         rut = request.form.get('rut')
         codigo_RFID = request.form.get('codigo_RFID')
-        tipo_usuario = request.form.get('tipo_usuario')
+        tipo_usuario = request.form.get('tipo_usuario').lower()
 
         # Clean dot and dash from rut
         if rut:
@@ -71,9 +88,11 @@ def crear_usuario():
             'correo': correo,
             'contrasena': contrasena,
             'rut': rut,
-            'codigo_RFID': codigo_RFID,
             'tipo_usuario': tipo_usuario
         }
+
+        if codigo_RFID:
+            data['codigo_RFID'] = codigo_RFID
 
         try:
             response = requests.post(f"{API_URL}/usuarios", json=data)
@@ -95,8 +114,9 @@ def crear_usuario():
         except requests.RequestException as e:
             # Error handling API request
             flash(f'Error al conectar con la API: {e}', 'danger')
+            service_offline = True
 
-    return render_template('admin/admin_crear_usuario.html', user=g.user, roles=usuario_roles)
+    return render_template('admin/admin_crear_usuario.html', user=g.user, roles=usuario_roles, service_offline=service_offline)
 
 
 @admin_bp.route('/editar-usuario/<rut>', methods=['GET', 'POST'])
@@ -105,11 +125,13 @@ def editar_usuario(rut):
     usuario_roles = [
         {"valor": "admin", "nombre": "Administrador"},
         {"valor": "empleado", "nombre": "Empleado"},
-        {"valor": "cocinero", "nombre": "Cocinero"}
+        {"valor": "cocineros", "nombre": "Cocineros"}
     ]
 
+    service_offline = False
+
     try:
-        # Obtener datos del usuario desde la API
+        # Get API Data
         response = requests.get(f"{API_URL}/usuarios/{rut}")
         if response.status_code == 200:
             usuario = response.json()
@@ -121,35 +143,41 @@ def editar_usuario(rut):
         return redirect(url_for('admin.admin_usuarios'))
 
     if request.method == 'POST':
-        # Recibir datos del formulario
-        nombre = request.form.get('nombre')
-        apellido = request.form.get('apellido')
-        correo = request.form.get('correo')
+        # Get form data
+        nombre = request.form.get('nombre').capitalize()
+        apellido = request.form.get('apellido').capitalize()
+        correo = request.form.get('correo').lower()
         codigo_RFID = request.form.get('codigo_RFID')
-        tipo_usuario = request.form.get('tipo_usuario')
+        tipo_usuario = request.form.get('tipo_usuario').lower()
 
-        # Verificar si el usuario intenta cambiarse su propio rol
+
+        # Check if user is trying to change its role to admin
         if g.user['rut'] == rut and tipo_usuario != "admin":
             flash('¡No puedes cambiarte el rol de administrador!', 'danger')
             return render_template(
                 'admin/admin_editar_usuario.html',
                 user=g.user,
-                usuario=usuario,  # Pasamos el diccionario de usuario
+                usuario=usuario,  # user dict
                 roles=usuario_roles,
                 show_modal=True
             )
 
-        # Preparar datos para la actualización
+        # Data for API
         data = {
             'nombre': nombre,
             'apellido': apellido,
             'correo': correo,
-            'codigo_RFID': codigo_RFID,
-            'tipo_usuario': tipo_usuario
+            'tipo_usuario': tipo_usuario,
         }
 
+        if codigo_RFID:
+            data['codigo_RFID'] = codigo_RFID
+        else:
+            data['codigo_RFID'] = "NO_ASIGNADO"
+
+        
         try:
-            response = requests.patch(f"{API_URL}/usuarios/{rut}", json=data)
+            response = requests.patch(f"{API_URL}/usuarios/{rut}", json=data)  # Change PUT to PATCH
             if response.status_code == 200:
                 flash('Usuario actualizado exitosamente.', 'success')
                 return redirect(url_for('admin.admin_usuarios'))
@@ -157,13 +185,28 @@ def editar_usuario(rut):
                 flash('Error al actualizar el usuario.', 'danger')
         except requests.RequestException as e:
             flash(f'Error al conectar con la API: {e}', 'danger')
+            service_offline = True
 
     return render_template(
         'admin/admin_editar_usuario.html',
         user=g.user,
         usuario=usuario,
-        roles=usuario_roles
+        roles=usuario_roles,
+        service_offline=service_offline
     )
 
+@admin_bp.route('/eliminar-usuario/<rut>', methods=['POST'])
+@role_required('admin')
+def eliminar_usuario(rut):
+    try:
+        response = requests.delete(f"{API_URL}/usuarios/{rut}")
+        if response.status_code == 200:
+            flash('Usuario eliminado exitosamente.', 'success')
+        else:
+            flash('Error al eliminar el usuario.', 'danger')
+    except requests.RequestException as e:
+        flash(f'Error al conectar con la API: {e}', 'danger')
+    
+    return redirect(url_for('admin.admin_usuarios'))
 
 

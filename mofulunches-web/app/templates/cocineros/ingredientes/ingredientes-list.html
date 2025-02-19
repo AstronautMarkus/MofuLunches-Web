@@ -46,7 +46,6 @@
                         <td>{{ ingrediente.tipo|capitalize }}</td>
                         <td>
                             <a href="{{ url_for('cocineros.ingredientes_editar', ingrediente_id=ingrediente.id) }}" class="btn btn-sm btn-primary">Editar</a>
-                            <button class="btn btn-sm btn-warning" disabled>Desactivar</button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -60,7 +59,7 @@
 
         <div class="card-body">
             <div class="row justify-content-end align-items-center">
-            <div class="col-md-2 text-center" data-aos="fade-left" data-aos-delay="600">
+            <div class="col-md-2 text-center">
                 <a href="{{ url_for('cocineros.ingredientes_crear') }}" class="btn btn-primary w-100 mb-2">Crear nuevo</a>
                 <a href="{{ url_for('cocineros.ingredientes_menu') }}" class="btn btn-danger w-100">Volver</a>
             </div>

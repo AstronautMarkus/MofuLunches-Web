@@ -8,6 +8,13 @@
 
 {% block body %}
 <div class="container mt-5">
+    {% if service_offline %}
+    <div class="text-center mb-4" data-aos="fade-down">
+        <h1 class="display-5">Servicio fuera de línea</h1>
+        <p class="lead">No se pudo conectar con el servicio de usuarios. Intenta nuevamente más tarde.</p>
+        <a href="{{ url_for('admin.admin_index') }}" class="btn btn-danger mt-3">Volver al menú</a>
+    </div>
+    {% else %}
     <div class="text-center mb-4" data-aos="fade-up">
         <h1 class="display-5">Listar usuarios</h1>
         <p class="lead">Selecciona a un usuario para ver sus detalles.</p>
@@ -35,7 +42,7 @@
                     <td>{{ usuario.codigo_RFID|upper }}</td>
                     <td>
                         <a href="{{ url_for('admin.editar_usuario', rut=usuario.rut) }}" class="btn btn-sm btn-primary">Editar</a>
-                        <button class="btn btn-sm btn-danger" disabled>Desactivar</button>
+                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-rut="{{ usuario.rut }}">Eliminar</button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -43,9 +50,31 @@
         </table>
     </div>
 
-    <div class="d-flex justify-content-end mt-5 mb-5" data-aos="fade-up" data-aos-delay="500">
-        <a href="{{ url_for('admin.crear_usuario')}}" class="btn btn-primary me-3" target="_blank" style="margin-left: 10px;">Agregar usuario</a>
-        <a href="{{ url_for('admin.admin_index')}}" class="btn btn-warning" style="margin-left: 10px;">Volver al dashboard</a>
+    <div class="d-flex justify-content-end mt-5 mb-5">
+        <a href="{{ url_for('admin.crear_usuario')}}" class="btn btn-primary me-3" style="margin-left: 10px;">Agregar usuario</a>
+        <a href="{{ url_for('admin.admin_index')}}" class="btn btn-danger" style="margin-left: 10px;">Salir</a>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Delete Warning Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Advertencia</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar este usuario? Esta acción es irreversible.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form id="deleteForm" method="POST" action="">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
@@ -57,6 +86,14 @@
         const rutCells = document.querySelectorAll('#user-table-body td:nth-child(2)');
         rutCells.forEach(cell => {
             cell.textContent = formatRUT(cell.textContent);
+        });
+
+        const deleteModal = document.getElementById('deleteModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const rut = button.getAttribute('data-rut');
+            const form = document.getElementById('deleteForm');
+            form.action = "{{ url_for('admin.eliminar_usuario', rut='') }}/" + rut;
         });
     });
 </script>
